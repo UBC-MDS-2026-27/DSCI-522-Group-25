@@ -1,1 +1,72 @@
 Report Test 
+
+---
+title: "Can a song’s audio features, genre and release era predict whether a Billboard Hot 100 song reaches the Top 10?"
+author: "Team-25"
+date: "2026-11-18"
+---
+
+## imports 
+
+
+```{python}
+#| warning: false
+import pandas as pd
+import numpy as np
+import kagglehub
+from kagglehub import KaggleDatasetAdapter
+import zipfile
+from sklearn.model_selection import train_test_split, StratifiedKFold, cross_val_score
+from sklearn.preprocessing import OneHotEncoder, StandardScaler
+from sklearn.compose import ColumnTransformer
+from sklearn.pipeline import Pipeline
+from sklearn.linear_model import LogisticRegression
+from sklearn.multiclass import OneVsRestClassifier
+from sklearn.metrics import (confusion_matrix, ConfusionMatrixDisplay, classification_report)
+from pathlib import Path
+```
+
+
+## Data Download
+
+```{python}
+dataset = "thedevastator/billboard-hot-100-audio-features"
+files = ["Hot Stuff.csv", "Hot 100 Audio Features.csv"]
+
+for name in files:
+    downloaded = kagglehub.dataset_download(dataset, name)
+    with open(downloaded, "rb") as src, open("./data/raw/" + name, "wb") as dst:
+        dst.write(src.read())
+
+import pandas as pd
+
+df1 = pd.read_csv("./data/raw/Hot Stuff.csv", compression="zip", encoding="latin1")
+df2 = pd.read_csv("./data/raw/Hot 100 Audio Features.csv", compression="zip", encoding="latin1")
+
+```
+
+The code reviewed and designed by Claude. Anthropic. (2026). Claude (Opus 5.5 version) [Large language model]. https://claude.ai
+
+
+
+## Drop unsed data and process data
+
+```{python}
+df1 = df1.drop(columns=["url", "SongID"])
+df2 = df2.drop(columns=["SongID", "spotify_track_id", "spotify_track_preview_url", "spotify_track_album", "mode",])
+```
+
+```{python}
+df_final = pd.merge(
+    df1,
+    df2,
+    left_on=["Song", "Performer"],
+    right_on=["Song", "Performer"],
+    how="inner"
+)
+
+df_final
+```
+
+
+## write df_final to a cleaned dataset
