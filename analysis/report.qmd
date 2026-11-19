@@ -144,5 +144,9 @@ save df_final to a csv
 
 ```{python}
 df_final.to_csv("./data/processed/df_final_cleaned.csv", index=False)
+
+df_final["top_10"] = (df_final["Peak Position"] <= 10).astype(int)
+
+df_final
 ```
 
