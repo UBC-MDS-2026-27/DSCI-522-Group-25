@@ -45,7 +45,7 @@ df2 = pd.read_csv("./data/raw/Hot 100 Audio Features.csv", compression="zip", en
 
 ```
 
-The code reviewed and designed by Claude. Anthropic. (2026). Claude (Opus 5.5 version) [Large language model]. https://claude.ai
+The code above was reviewed and designed by Claude. Anthropic. (2026). Claude (Opus 5.5 version) [Large language model]. https://claude.ai
 
 
 
@@ -68,5 +68,93 @@ df_final = pd.merge(
 df_final
 ```
 
-
 ## write df_final to a cleaned dataset
+```{python}
+
+#drop unused columns in df_final 
+df_final.info()
+df_final = df_final.drop(columns=["index_x", "Instance", "index_y"])
+
+```
+
+
+```{python}
+df_final = (
+    df_final[df_final["Week Position"] == df_final["Peak Position"]]
+    .sort_values("WeekID")
+    .drop_duplicates(subset=["Song", "Performer"], keep="last")
+)
+
+df_final
+
+### make sure none of the song/performer results are duplicated
+
+
+dupe_counts = (
+    df_final.groupby(["Song", "Performer"])
+          .size()
+          .reset_index(name="count")
+          .query("count > 1")
+          .sort_values("count", ascending=False)
+)
+print(dupe_counts)
+```
+
+### the genre column has multiple different genres associates with each song. ex ['dance pop', 'pop', 'post-teen pop'], we want to change this just a single string
+
+```{python}
+def first_genre(val):
+    # if the column is empty/null/none, it returns NaN
+    if pd.isna(val):
+        return np.nan
+    # real list/tuple already
+    if isinstance(val, (list, tuple)):
+        return val[0] if len(val) else np.nan
+    # try to parse string like "['dance pop','pop']" or '["dance pop","pop"]'
+    s = str(val).strip()
+    try:
+        parsed = ast.literal_eval(s)
+        if isinstance(parsed, (list, tuple)) and parsed:
+            return parsed[0]
+    except Exception:
+        pass
+    # if it's a comma-separated string, take the first part
+    if "," in s:
+        return s.split(",")[0].strip().strip("'").strip('"')
+    # otherwise just return as-is
+    return s
+
+# keep original, write cleaned value to a new column
+df_final["primary_genre"] = df_final["spotify_genre"].apply(first_genre)
+
+df_final
+```
+
+The code above (the first_genre function) was reviewed and designed by Claude. Anthropic. (2026). Claude (Opus 5.5 version) [Large language model]. https://claude.ai
+
+drop unused columns
+
+```{python}
+df_final = df_final.drop(columns=["Previous Week Position", "spotify_genre"])
+
+df_final
+```
+
+save df_final to a csv
+
+```{python}
+df_final.to_csv("./data/processed/df_final_cleaned.csv", index=False)
+
+df_final["top_10"] = (df_final["Peak Position"] <= 10).astype(int)
+
+df_final
+```
+
+##Split into train test split 
+
+```{python}
+train_df, test_df = train_test_split(df_final, test_size = 0.3, random_state= 552)
+
+train_df.to_csv("./data/processed/df_final_train.csv", index=False)
+test_df.to_csv("./data/processed/df_final_test.csv", index=False)
+```
