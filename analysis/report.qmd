@@ -150,3 +150,11 @@ df_final["top_10"] = (df_final["Peak Position"] <= 10).astype(int)
 df_final
 ```
 
+##Split into train test split 
+
+```{python}
+train_df, test_df = train_test_split(df_final, test_size = 0.3, random_state= 552)
+
+train_df.to_csv("./data/processed/df_final_train.csv", index=False)
+test_df.to_csv("./data/processed/df_final_test.csv", index=False)
+```
