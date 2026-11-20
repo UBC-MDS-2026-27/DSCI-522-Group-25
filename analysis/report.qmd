@@ -1,12 +1,18 @@
-Report Test 
+
 
 ---
-title: "Can a song’s audio features, genre and release era predict whether a Billboard Hot 100 song reaches the Top 10?"
-author: "Team-25"
+title: "Predicting Top 10 Billboard Hits Using Audio Features and Metadata"
+authors: "Nitpreet Bamra, Eshadhi Bogoda, Jack Liu, James Wang"
 date: "2026-11-18"
+format:
+  html:
+    include-in-header:
+      text: |
+        <style>
+          #title-block-header, .quarto-title { text-align: center; }
+          .quarto-title-meta { justify-content: center; }
+        </style>
 ---
-
-## imports 
 
 
 ```{python}
@@ -28,10 +34,21 @@ from sklearn.metrics import (confusion_matrix, ConfusionMatrixDisplay, classific
 from pathlib import Path
 ```
 
+## Summary
+_To be added._
 
-## Data Download
+## Introduction
+
+_To be added._
+
+## Methods
+
+### Data
+
+_To be added: describe the data set and how it was downloaded._
 
 ```{python}
+## Data Download
 dataset = "thedevastator/billboard-hot-100-audio-features"
 files = ["Hot Stuff.csv", "Hot 100 Audio Features.csv"]
 
@@ -51,7 +68,7 @@ The code above was reviewed and designed by Claude. Anthropic. (2026). Claude (O
 
 
 
-## Drop unsed data and process data
+### Drop unsed data and process data
 
 ```{python}
 df1 = df1.drop(columns=["url", "SongID"])
@@ -69,7 +86,7 @@ df_final = pd.merge(
 
 ```
 
-## write df_final to a cleaned dataset
+### write df_final to a cleaned dataset
 ```{python}
 
 #drop unused columns in df_final 
@@ -158,8 +175,13 @@ train_df.to_csv("../data/processed/df_final_train.csv", index=False)
 test_df.to_csv("../data/processed/df_final_test.csv", index=False)
 ```
 
+## Analysis 
 
-## EDA
+_To be added: model, preprocessing and metric._
+
+## Results & Discussions 
+
+### Exploratory data analysis
 
 ```{python}
 # Table 1: average audio feature values for Top 10 vs. non-Top 10 songs
@@ -258,3 +280,14 @@ Overall, the EDA suggests that no single audio feature strongly distinguishes To
 
 The code above (Table 1 Summary, Figures 1 and 2) was reviewed and designed with help from Claude. Anthropic. (2026). Claude (Opus 5.5 version) [Large language model]. https://claude.ai
 
+### Model results
+
+_To be added._
+
+### Discussion
+
+_To be added._
+
+## References
+
+_To be added._
