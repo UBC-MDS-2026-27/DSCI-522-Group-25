@@ -160,7 +160,6 @@ test_df.to_csv("../data/processed/df_final_test.csv", index=False)
 
 
 ## EDA
-### Table 1: Summary of audio features by Top 10 status
 
 ```{python}
 # Table 1: average audio feature values for Top 10 vs. non-Top 10 songs
@@ -180,11 +179,12 @@ table_1.index = ["Not Top 10", "Top 10"]
 table_1.columns = ["Number of songs", "Danceability", "Energy", "Valence",
                    "Loudness (dB)", "Tempo (BPM)"]
 table_1
+
 ```
+*Table 1: Summary of audio features by Top 10 status*
 
 Table 1 summarizes the average values of five audio features for songs that did and did not reach the Top 10 in the training data. We selected these five features (danceability, energy, valence, loudness and tempo) because they are commonly used to describe a song’s overall sound. The differences between the two groups are quite small. Top 10 songs are slightly more danceable (0.62 vs. 0.60) and have slightly higher valence (0.63 vs. 0.60), while energy, loudness and tempo are nearly identical. This tells us that no single audio feature strongly separates Top 10 songs from other songs.
 
-### Figure 1: Class balance of Top 10 vs. non-Top 10 songs
 
 ```{python}
 # Figure 1: number of songs that did and did not reach the Top 10
@@ -215,10 +215,10 @@ alt.Chart(class_counts).mark_bar().encode(
     titleFontSize=14
 )
 ```
+*Figure 1: Class balance of Top 10 vs. non-Top 10 songs*
 
 Figure 1 shows the number of songs in each class. We used a bar chart because it makes it easy to compare the counts of the two categories. The classes are highly imbalanced: only 2,081 songs (about 12%) reached the Top 10, compared to 14,770 songs that did not. Due to the imbalance, using only accuracy would be misleading since a model that always predicted “Not Top 10” would still be about 88% accurate.Instead we should use metrics such as recall and F1 score, which better reflect how well the model identifies Top 10 songs.
 
-### Figure 2: Danceability of Top 10 vs. non-Top 10 songs
 
 ```{python}
 # Figure 2: distribution of danceability by Top 10 status
@@ -249,6 +249,7 @@ alt.Chart(plot_df).transform_density(
     titleFontSize=14
 )
 ```
+*Figure 2: Danceability of Top 10 vs. non-Top 10 songs*
 
 Figure 2 shows the distribution of danceability for Top 10 and non-Top 10 songs. The Top 10 distribution is shifted slightly to the right, meaning Top 10 songs tend to be a little more danceable. However, the significant overlap suggests that danceability is not enough to predict Top 10 status. This is consistent with the small differences seen in Table 1.
 
