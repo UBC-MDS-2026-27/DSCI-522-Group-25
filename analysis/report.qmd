@@ -13,6 +13,7 @@ date: "2026-11-18"
 #| warning: false
 import pandas as pd
 import numpy as np
+import altair as alt
 import kagglehub
 from kagglehub import KaggleDatasetAdapter
 import zipfile
@@ -178,4 +179,30 @@ table_1.index = ["Not Top 10", "Top 10"]
 table_1.columns = ["Number of songs", "Danceability", "Energy", "Valence",
                    "Loudness (dB)", "Tempo (BPM)"]
 table_1
+```
+
+The code above (Table 1 summary) was reviewed and designed with help from Claude. Anthropic. (2026). Claude (Opus 5.5 version) [Large language model]. https://claude.ai
+
+### Figure 1: Class balance of Top 10 vs. non-Top 10 songs
+
+```{python}
+# Figure 1: number of songs that did and did not reach the Top 10
+# (training data only)
+class_counts = (
+    train_df["top_10"]
+    .map({0: "Not Top 10", 1: "Top 10"})
+    .value_counts()
+    .reset_index()
+)
+class_counts.columns = ["Top 10 status", "Number of songs"]
+
+alt.Chart(class_counts).mark_bar().encode(
+    x=alt.X("Top 10 status", title="Top 10 status", axis=alt.Axis(labelAngle=0)),
+    y=alt.Y("Number of songs", title="Number of songs"),
+    color=alt.Color("Top 10 status", legend=None)
+).properties(
+    width=300,
+    height=300,
+    title="Number of songs that reached the Top 10 (training data)"
+)
 ```
