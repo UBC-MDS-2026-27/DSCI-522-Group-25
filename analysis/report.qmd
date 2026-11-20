@@ -203,6 +203,14 @@ alt.Chart(class_counts).mark_bar().encode(
     width=300,
     height=300,
     title="Number of songs by top 10 status (training data)"
+).configure_axis(
+    labelFontSize=13,
+    titleFontSize=14
+).configure_title(
+    fontSize=16
+).configure_legend(
+    labelFontSize=13,
+    titleFontSize=14
 )
 ```
 
@@ -227,6 +235,14 @@ alt.Chart(plot_df).transform_density(
     width=400,
     height=300,
     title="Distribution of danceability by Top 10 status (training data)"
+).configure_axis(
+    labelFontSize=13,
+    titleFontSize=14
+).configure_title(
+    fontSize=16
+).configure_legend(
+    labelFontSize=13,
+    titleFontSize=14
 )
 ```
 
