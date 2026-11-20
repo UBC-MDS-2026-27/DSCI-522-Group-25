@@ -36,6 +36,9 @@ from sklearn.compose import make_column_transformer
 from sklearn.pipeline import make_pipeline
 from sklearn.impute import SimpleImputer
 import ast
+from sklearn.dummy import DummyClassifier
+from sklearn.model_selection import cross_validate
+from sklearn.model_selection import GridSearchCV
 ```
 
 ## Summary
@@ -316,3 +319,70 @@ preprocessor
 ```
 
 The code above was reviewed and designed by Claude.
+
+### Baseline model
+
+```{python}
+#| warning: false
+dummy_pipe = make_pipeline(preprocessor, DummyClassifier(strategy="most_frequent"))
+
+scoring = ["accuracy", "precision", "recall", "f1"]
+cv_dummy = cross_validate(dummy_pipe, X_train, y_train, cv=5,
+                          scoring=scoring, return_train_score=True)
+
+results = {"Dummy (most frequent)": pd.DataFrame(cv_dummy).mean()}
+pd.DataFrame(results).T
+```
+
+### Logistic regression
+
+```{python}
+#| warning: false
+lr_pipe = make_pipeline(preprocessor, LogisticRegression(max_iter=1000, random_state=522))
+
+param_grid = {
+    "logisticregression__C": np.logspace(-3, 3, 7),
+    "logisticregression__class_weight": [None, "balanced"],
+}
+
+search = GridSearchCV(
+    lr_pipe, param_grid, cv=5,
+    scoring=scoring, refit="f1",
+    return_train_score=True, n_jobs=-1,
+)
+search.fit(X_train, y_train)
+search.best_params_
+```
+
+```{python}
+best = pd.DataFrame(search.cv_results_).iloc[search.best_index_]
+results["Logistic regression (tuned)"] = pd.Series({
+    f"{split}_{m}": best[f"mean_{split}_{m}"]
+    for split in ["train", "test"] for m in scoring
+})
+
+table2 = (
+    pd.DataFrame(results).T
+    .loc[["Dummy (most frequent)", "Logistic regression (tuned)"],
+         ["test_accuracy", "test_precision", "test_recall", "test_f1"]]
+    .round(3)
+)
+table2.columns = ["Accuracy", "Precision", "Recall", "F1"]
+table2
+```
+
+*Table 2: Mean 5-fold cross-validation scores for the baseline and tuned logistic regression.*
+
+The code above was reviewed and designed by Claude. Anthropic. (2026). Claude (Opus 5.5 version) [Large language model]. https://claude.ai
+
+### Model results
+
+_To be added._
+
+### Discussion
+
+_To be added._
+
+## References
+
+_To be added._
