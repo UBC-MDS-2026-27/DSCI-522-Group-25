@@ -353,3 +353,5 @@ table2
 ```
 
 *Table 2: Mean 5-fold cross-validation scores for the baseline and tuned logistic regression.*
+
+The code above was reviewed and designed by Claude. Anthropic. (2026). Claude (Opus 5.5 version) [Large language model]. https://claude.ai
