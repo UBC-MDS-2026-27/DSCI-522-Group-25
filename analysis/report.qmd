@@ -32,6 +32,10 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.multiclass import OneVsRestClassifier
 from sklearn.metrics import (confusion_matrix, ConfusionMatrixDisplay, classification_report)
 from pathlib import Path
+from sklearn.compose import make_column_transformer
+from sklearn.pipeline import make_pipeline
+from sklearn.impute import SimpleImputer
+import ast
 ```
 
 ## Summary
@@ -280,14 +284,35 @@ Overall, the EDA suggests that no single audio feature strongly distinguishes To
 
 The code above (Table 1 Summary, Figures 1 and 2) was reviewed and designed with help from Claude. Anthropic. (2026). Claude (Opus 5.5 version) [Large language model]. https://claude.ai
 
-### Model results
+### Preprocessing
 
-_To be added._
+```{python}
+X_train = train_df.drop(columns=["top_10"])
+y_train = train_df["top_10"]
+X_test = test_df.drop(columns=["top_10"])
+y_test = test_df["top_10"]
 
-### Discussion
+# release era: year of the song's peak chart week
+X_train["year"] = pd.to_datetime(X_train["WeekID"]).dt.year
+X_test["year"] = pd.to_datetime(X_test["WeekID"]).dt.year
+```
 
-_To be added._
+```{python}
+numeric_features = [
+    "danceability", "energy", "valence", "loudness", "tempo",
+    "acousticness", "speechiness", "instrumentalness", "liveness",
+    "spotify_track_duration_ms", "year",
+]
+categorical_features = ["primary_genre"]
+binary_features = ["spotify_track_explicit"]
 
-## References
+preprocessor = make_column_transformer(
+    (make_pipeline(SimpleImputer(strategy="median"), StandardScaler()), numeric_features),
+    (make_pipeline(SimpleImputer(strategy="most_frequent"),
+                   OneHotEncoder(handle_unknown="ignore", sparse_output=False)), categorical_features),
+    (OneHotEncoder(drop="if_binary", sparse_output=False), binary_features),
+)
+preprocessor
+```
 
-_To be added._
+The code above was reviewed and designed by Claude.

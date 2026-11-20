@@ -124,7 +124,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<div id="76bedeb0" class="cell" data-execution_count="1">
+<div id="c1525acd" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> altair <span class="im">as</span> alt</span>
@@ -139,7 +139,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> LogisticRegression</span>
 <span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.multiclass <span class="im">import</span> OneVsRestClassifier</span>
 <span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> (confusion_matrix, ConfusionMatrixDisplay, classification_report)</span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pathlib <span class="im">import</span> Path</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pathlib <span class="im">import</span> Path</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.compose <span class="im">import</span> make_column_transformer</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.pipeline <span class="im">import</span> make_pipeline</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.impute <span class="im">import</span> SimpleImputer</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> ast</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <section id="summary" class="level2">
 <h2 class="anchored" data-anchor-id="summary">Summary</h2>
@@ -154,7 +158,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="data" class="level3">
 <h3 class="anchored" data-anchor-id="data">Data</h3>
 <p><em>To be added: describe the data set and how it was downloaded.</em></p>
-<div id="62eb0736" class="cell" data-execution_count="2">
+<div id="9a352d4d" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">## Data Download</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>dataset <span class="op">=</span> <span class="st">"thedevastator/billboard-hot-100-audio-features"</span></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>files <span class="op">=</span> [<span class="st">"Hot Stuff.csv"</span>, <span class="st">"Hot 100 Audio Features.csv"</span>]</span>
@@ -173,11 +177,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="drop-unsed-data-and-process-data" class="level3">
 <h3 class="anchored" data-anchor-id="drop-unsed-data-and-process-data">Drop unsed data and process data</h3>
-<div id="73d448f0" class="cell" data-execution_count="3">
+<div id="0c189ebf" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>df1 <span class="op">=</span> df1.drop(columns<span class="op">=</span>[<span class="st">"url"</span>, <span class="st">"SongID"</span>])</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>df2 <span class="op">=</span> df2.drop(columns<span class="op">=</span>[<span class="st">"SongID"</span>, <span class="st">"spotify_track_id"</span>, <span class="st">"spotify_track_preview_url"</span>, <span class="st">"spotify_track_album"</span>, <span class="st">"mode"</span>,])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="075f9a50" class="cell" data-execution_count="4">
+<div id="4c0b7b8f" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>df_final <span class="op">=</span> pd.merge(</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    df1,</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    df2,</span>
@@ -189,7 +193,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="write-df_final-to-a-cleaned-dataset" class="level3">
 <h3 class="anchored" data-anchor-id="write-df_final-to-a-cleaned-dataset">write df_final to a cleaned dataset</h3>
-<div id="dfaec8d5" class="cell" data-execution_count="5">
+<div id="741b7056" class="cell" data-execution_count="5">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co">#drop unused columns in df_final </span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>df_final.info()</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>df_final <span class="op">=</span> df_final.drop(columns<span class="op">=</span>[<span class="st">"index_x"</span>, <span class="st">"Instance"</span>, <span class="st">"index_y"</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -228,7 +232,7 @@ dtypes: float64(14), int64(6), object(1), str(4)
 memory usage: 63.0+ MB</code></pre>
 </div>
 </div>
-<div id="3887677b" class="cell" data-execution_count="6">
+<div id="5a06119f" class="cell" data-execution_count="6">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>df_final <span class="op">=</span> (</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    df_final[df_final[<span class="st">"Week Position"</span>] <span class="op">==</span> df_final[<span class="st">"Peak Position"</span>]]</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    .sort_values(<span class="st">"WeekID"</span>)</span>
@@ -256,7 +260,7 @@ Index: []</code></pre>
 </section>
 <section id="the-genre-column-has-multiple-different-genres-associates-with-each-song.-ex-dance-pop-pop-post-teen-pop-we-want-to-change-this-just-a-single-string" class="level3">
 <h3 class="anchored" data-anchor-id="the-genre-column-has-multiple-different-genres-associates-with-each-song.-ex-dance-pop-pop-post-teen-pop-we-want-to-change-this-just-a-single-string">the genre column has multiple different genres associates with each song. ex [‘dance pop’, ‘pop’, ‘post-teen pop’], we want to change this just a single string</h3>
-<div id="a27c5c71" class="cell" data-execution_count="7">
+<div id="6fee1a85" class="cell" data-execution_count="7">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> first_genre(val):</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>    <span class="co"># if the column is empty/null/none, it returns NaN</span></span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> pd.isna(val):</span>
@@ -283,7 +287,7 @@ Index: []</code></pre>
 </div>
 <p>The code above (the first_genre function) was reviewed and designed by Claude. Anthropic. (2026). Claude (Opus 5.5 version) [Large language model]. https://claude.ai</p>
 <p>drop unused columns</p>
-<div id="e2825bd8" class="cell" data-execution_count="8">
+<div id="f954977e" class="cell" data-execution_count="8">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>df_final <span class="op">=</span> df_final.drop(columns<span class="op">=</span>[<span class="st">"Previous Week Position"</span>, <span class="st">"spotify_genre"</span>])</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="co">## drop the null rows</span></span>
@@ -343,7 +347,7 @@ Index: []</code></pre>
 <td>108.569</td>
 <td>4.0</td>
 <td>21.0</td>
-<td>['british invasion</td>
+<td>british invasion</td>
 </tr>
 <tr class="even">
 <th data-quarto-table-cell-role="th">103486</th>
@@ -367,7 +371,7 @@ Index: []</code></pre>
 <td>192.918</td>
 <td>3.0</td>
 <td>11.0</td>
-<td>['classic girl group</td>
+<td>classic girl group</td>
 </tr>
 <tr class="odd">
 <th data-quarto-table-cell-role="th">13697</th>
@@ -391,7 +395,7 @@ Index: []</code></pre>
 <td>101.429</td>
 <td>4.0</td>
 <td>17.0</td>
-<td>['adult standards</td>
+<td>adult standards</td>
 </tr>
 <tr class="even">
 <th data-quarto-table-cell-role="th">20233</th>
@@ -415,7 +419,7 @@ Index: []</code></pre>
 <td>94.677</td>
 <td>4.0</td>
 <td>40.0</td>
-<td>['detroit hip hop</td>
+<td>detroit hip hop</td>
 </tr>
 <tr class="odd">
 <th data-quarto-table-cell-role="th">22426</th>
@@ -439,7 +443,7 @@ Index: []</code></pre>
 <td>78.484</td>
 <td>4.0</td>
 <td>71.0</td>
-<td>['dance pop</td>
+<td>dance pop</td>
 </tr>
 <tr class="even">
 <th data-quarto-table-cell-role="th">...</th>
@@ -487,7 +491,7 @@ Index: []</code></pre>
 <td>129.938</td>
 <td>4.0</td>
 <td>77.0</td>
-<td>['alternative r&amp;b</td>
+<td>alternative r&amp;b</td>
 </tr>
 <tr class="even">
 <th data-quarto-table-cell-role="th">68075</th>
@@ -511,7 +515,7 @@ Index: []</code></pre>
 <td>160.223</td>
 <td>4.0</td>
 <td>75.0</td>
-<td>['cali rap</td>
+<td>cali rap</td>
 </tr>
 <tr class="odd">
 <th data-quarto-table-cell-role="th">7896</th>
@@ -535,7 +539,7 @@ Index: []</code></pre>
 <td>139.948</td>
 <td>4.0</td>
 <td>76.0</td>
-<td>['atl hip hop</td>
+<td>atl hip hop</td>
 </tr>
 <tr class="even">
 <th data-quarto-table-cell-role="th">244178</th>
@@ -559,7 +563,7 @@ Index: []</code></pre>
 <td>135.002</td>
 <td>4.0</td>
 <td>78.0</td>
-<td>['alternative r&amp;b</td>
+<td>alternative r&amp;b</td>
 </tr>
 <tr class="odd">
 <th data-quarto-table-cell-role="th">280380</th>
@@ -583,7 +587,7 @@ Index: []</code></pre>
 <td>104.988</td>
 <td>4.0</td>
 <td>86.0</td>
-<td>['dance pop</td>
+<td>dance pop</td>
 </tr>
 </tbody>
 </table>
@@ -593,13 +597,13 @@ Index: []</code></pre>
 </div>
 </div>
 <p>save df_final to a csv</p>
-<div id="291f0cd7" class="cell" data-execution_count="9">
+<div id="8a37afc6" class="cell" data-execution_count="9">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>df_final.to_csv(<span class="st">"../data/processed/df_final_cleaned.csv"</span>, index<span class="op">=</span><span class="va">False</span>)</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>df_final[<span class="st">"top_10"</span>] <span class="op">=</span> (df_final[<span class="st">"Peak Position"</span>] <span class="op">&lt;=</span> <span class="dv">10</span>).astype(<span class="bu">int</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>##Split into train test split</p>
-<div id="07057f52" class="cell" data-execution_count="10">
+<div id="9a19dbd7" class="cell" data-execution_count="10">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>train_df, test_df <span class="op">=</span> train_test_split(df_final, test_size <span class="op">=</span> <span class="fl">0.3</span>, random_state<span class="op">=</span> <span class="dv">552</span>)</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>train_df.to_csv(<span class="st">"../data/processed/df_final_train.csv"</span>, index<span class="op">=</span><span class="va">False</span>)</span>
@@ -615,7 +619,7 @@ Index: []</code></pre>
 <h2 class="anchored" data-anchor-id="results-discussions">Results &amp; Discussions</h2>
 <section id="exploratory-data-analysis" class="level3">
 <h3 class="anchored" data-anchor-id="exploratory-data-analysis">Exploratory data analysis</h3>
-<div id="377d8e1a" class="cell" data-execution_count="11">
+<div id="9a0e3bcf" class="cell" data-execution_count="11">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Table 1: average audio feature values for Top 10 vs. non-Top 10 songs</span></span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="co"># (training data only)</span></span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>table_1 <span class="op">=</span> (</span>
@@ -676,7 +680,7 @@ Index: []</code></pre>
 </div>
 <p><em>Table 1: Summary of audio features by Top 10 status</em></p>
 <p>Table 1 summarizes the average values of five audio features for songs that did and did not reach the Top 10 in the training data. We selected these five features (danceability, energy, valence, loudness and tempo) because they are commonly used to describe a song’s overall sound. The differences between the two groups are quite small. Top 10 songs are slightly more danceable (0.62 vs.&nbsp;0.60) and have slightly higher valence (0.63 vs.&nbsp;0.60), while energy, loudness and tempo are nearly identical. This tells us that no single audio feature strongly separates Top 10 songs from other songs.</p>
-<div id="c205ad03" class="cell" data-execution_count="12">
+<div id="75bbd3f3" class="cell" data-execution_count="12">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Figure 1: number of songs that did and did not reach the Top 10</span></span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="co"># (training data only)</span></span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>class_counts <span class="op">=</span> (</span>
@@ -707,23 +711,23 @@ Index: []</code></pre>
 <div class="cell-output cell-output-display" data-execution_count="12">
 
 <style>
-  #altair-viz-29151c3e4dd64e4cb6a1f4106fcb6008.vega-embed {
+  #altair-viz-f2d1bfc950734ee2be178257a554d3cc.vega-embed {
     width: 100%;
     display: flex;
   }
 
-  #altair-viz-29151c3e4dd64e4cb6a1f4106fcb6008.vega-embed details,
-  #altair-viz-29151c3e4dd64e4cb6a1f4106fcb6008.vega-embed details summary {
+  #altair-viz-f2d1bfc950734ee2be178257a554d3cc.vega-embed details,
+  #altair-viz-f2d1bfc950734ee2be178257a554d3cc.vega-embed details summary {
     position: relative;
   }
 </style>
-<div id="altair-viz-29151c3e4dd64e4cb6a1f4106fcb6008"></div>
+<div id="altair-viz-f2d1bfc950734ee2be178257a554d3cc"></div>
 <script type="text/javascript">
   var VEGA_DEBUG = (typeof VEGA_DEBUG == "undefined") ? {} : VEGA_DEBUG;
   (function(spec, embedOpt){
     let outputDiv = document.currentScript.previousElementSibling;
-    if (outputDiv.id !== "altair-viz-29151c3e4dd64e4cb6a1f4106fcb6008") {
-      outputDiv = document.getElementById("altair-viz-29151c3e4dd64e4cb6a1f4106fcb6008");
+    if (outputDiv.id !== "altair-viz-f2d1bfc950734ee2be178257a554d3cc") {
+      outputDiv = document.getElementById("altair-viz-f2d1bfc950734ee2be178257a554d3cc");
     }
 
     const paths = {
@@ -777,7 +781,7 @@ Index: []</code></pre>
 </div>
 <p><em>Figure 1: Class balance of Top 10 vs.&nbsp;non-Top 10 songs</em></p>
 <p>Figure 1 shows the number of songs in each class. We used a bar chart because it makes it easy to compare the counts of the two categories. The classes are highly imbalanced: only 2,081 songs (about 12%) reached the Top 10, compared to 14,770 songs that did not. Due to the imbalance, using only accuracy would be misleading since a model that always predicted “Not Top 10” would still be about 88% accurate.Instead we should use metrics such as recall and F1 score, which better reflect how well the model identifies Top 10 songs.</p>
-<div id="8917814a" class="cell" data-execution_count="13">
+<div id="c5257643" class="cell" data-execution_count="13">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Figure 2: distribution of danceability by Top 10 status</span></span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="co"># (training data only)</span></span>
 <span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>plot_df <span class="op">=</span> train_df.assign(</span>
@@ -808,23 +812,23 @@ Index: []</code></pre>
 <div class="cell-output cell-output-display" data-execution_count="13">
 
 <style>
-  #altair-viz-6c25b63cac374e8ab55f1bdfce76142c.vega-embed {
+  #altair-viz-4da735556fd548e59f5068b673ef3110.vega-embed {
     width: 100%;
     display: flex;
   }
 
-  #altair-viz-6c25b63cac374e8ab55f1bdfce76142c.vega-embed details,
-  #altair-viz-6c25b63cac374e8ab55f1bdfce76142c.vega-embed details summary {
+  #altair-viz-4da735556fd548e59f5068b673ef3110.vega-embed details,
+  #altair-viz-4da735556fd548e59f5068b673ef3110.vega-embed details summary {
     position: relative;
   }
 </style>
-<div id="altair-viz-6c25b63cac374e8ab55f1bdfce76142c"></div>
+<div id="altair-viz-4da735556fd548e59f5068b673ef3110"></div>
 <script type="text/javascript">
   var VEGA_DEBUG = (typeof VEGA_DEBUG == "undefined") ? {} : VEGA_DEBUG;
   (function(spec, embedOpt){
     let outputDiv = document.currentScript.previousElementSibling;
-    if (outputDiv.id !== "altair-viz-6c25b63cac374e8ab55f1bdfce76142c") {
-      outputDiv = document.getElementById("altair-viz-6c25b63cac374e8ab55f1bdfce76142c");
+    if (outputDiv.id !== "altair-viz-4da735556fd548e59f5068b673ef3110") {
+      outputDiv = document.getElementById("altair-viz-4da735556fd548e59f5068b673ef3110");
     }
 
     const paths = {
@@ -881,18 +885,1723 @@ Index: []</code></pre>
 <p>Overall, the EDA suggests that no single audio feature strongly distinguishes Top 10 songs from other songs. Therefore, we should use all the audio features (danceability, energy, valence, loudness, tempo, acousticness, speechiness, instrumentalness, liveness, duration and explicit content) while including the other features primary genre and era as well. We shouldn’t include peak position, week position, weeks on chart or Spotify popularity because these features give the model information about the targe. This would make the model look more accurate than it really is, since it would not have this information when predicting a new song.</p>
 <p>The code above (Table 1 Summary, Figures 1 and 2) was reviewed and designed with help from Claude. Anthropic. (2026). Claude (Opus 5.5 version) [Large language model]. https://claude.ai</p>
 </section>
-<section id="model-results" class="level3">
-<h3 class="anchored" data-anchor-id="model-results">Model results</h3>
-<p><em>To be added.</em></p>
+<section id="preprocessing" class="level3">
+<h3 class="anchored" data-anchor-id="preprocessing">Preprocessing</h3>
+<div id="1a38a35e" class="cell" data-execution_count="14">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>X_train <span class="op">=</span> train_df.drop(columns<span class="op">=</span>[<span class="st">"top_10"</span>])</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>y_train <span class="op">=</span> train_df[<span class="st">"top_10"</span>]</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>X_test <span class="op">=</span> test_df.drop(columns<span class="op">=</span>[<span class="st">"top_10"</span>])</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>y_test <span class="op">=</span> test_df[<span class="st">"top_10"</span>]</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a><span class="co"># release era: year of the song's peak chart week</span></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>X_train[<span class="st">"year"</span>] <span class="op">=</span> pd.to_datetime(X_train[<span class="st">"WeekID"</span>]).dt.year</span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>X_test[<span class="st">"year"</span>] <span class="op">=</span> pd.to_datetime(X_test[<span class="st">"WeekID"</span>]).dt.year</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="b296a4b9" class="cell" data-execution_count="15">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>numeric_features <span class="op">=</span> [</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"danceability"</span>, <span class="st">"energy"</span>, <span class="st">"valence"</span>, <span class="st">"loudness"</span>, <span class="st">"tempo"</span>,</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"acousticness"</span>, <span class="st">"speechiness"</span>, <span class="st">"instrumentalness"</span>, <span class="st">"liveness"</span>,</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"spotify_track_duration_ms"</span>, <span class="st">"year"</span>,</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>categorical_features <span class="op">=</span> [<span class="st">"primary_genre"</span>]</span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>binary_features <span class="op">=</span> [<span class="st">"spotify_track_explicit"</span>]</span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>preprocessor <span class="op">=</span> make_column_transformer(</span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>    (make_pipeline(SimpleImputer(strategy<span class="op">=</span><span class="st">"median"</span>), StandardScaler()), numeric_features),</span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>    (make_pipeline(SimpleImputer(strategy<span class="op">=</span><span class="st">"most_frequent"</span>),</span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a>                   OneHotEncoder(handle_unknown<span class="op">=</span><span class="st">"ignore"</span>, sparse_output<span class="op">=</span><span class="va">False</span>)), categorical_features),</span>
+<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a>    (OneHotEncoder(drop<span class="op">=</span><span class="st">"if_binary"</span>, sparse_output<span class="op">=</span><span class="va">False</span>), binary_features),</span>
+<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a>preprocessor</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="15">
+<style>.sk-global {
+  /* Definition of color scheme common for light and dark mode */
+  --sklearn-color-text: #000;
+  --sklearn-color-text-muted: #666;
+  --sklearn-color-line: gray;
+  /* Definition of color scheme for unfitted estimators */
+  --sklearn-color-unfitted-level-0: #fff5e6;
+  --sklearn-color-unfitted-level-1: #f6e4d2;
+  --sklearn-color-unfitted-level-2: #ffe0b3;
+  --sklearn-color-unfitted-level-3: chocolate;
+  /* Definition of color scheme for fitted estimators */
+  --sklearn-color-fitted-level-0: #f0f8ff;
+  --sklearn-color-fitted-level-1: #d4ebff;
+  --sklearn-color-fitted-level-2: #b3dbfd;
+  --sklearn-color-fitted-level-3: cornflowerblue;
+}
+
+.sk-global.light {
+  /* Specific color for light theme */
+  --sklearn-color-text-on-default-background: black;
+  --sklearn-color-background: white;
+  --sklearn-color-border-box: black;
+  --sklearn-color-icon: #696969;
+}
+
+.sk-global.dark {
+  --sklearn-color-text-on-default-background: white;
+  --sklearn-color-background: #111;
+  --sklearn-color-border-box: white;
+  --sklearn-color-icon: #878787;
+}
+
+.sk-global {
+  color: var(--sklearn-color-text);
+}
+
+.sk-global pre {
+  padding: 0;
+}
+
+.sk-global input.sk-hidden--visually {
+  border: 0;
+  clip-path: inset(100%);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px;
+}
+
+.sk-global div.sk-dashed-wrapped {
+  border: 1px dashed var(--sklearn-color-line);
+  margin: 0 0.4em 0.5em 0.4em;
+  box-sizing: border-box;
+  padding-bottom: 0.4em;
+  background-color: var(--sklearn-color-background);
+}
+
+.sk-global div.sk-container {
+  /* jupyter's `normalize.less` sets `[hidden] { display: none; }`
+     but bootstrap.min.css set `[hidden] { display: none !important; }`
+     so we also need the `!important` here to be able to override the
+     default hidden behavior on the sphinx rendered scikit-learn.org.
+     See: https://github.com/scikit-learn/scikit-learn/issues/21755 */
+  display: inline-block !important;
+  position: relative;
+}
+
+.sk-global div.sk-text-repr-fallback {
+  display: none;
+}
+
+div.sk-parallel-item,
+div.sk-serial,
+div.sk-item {
+  /* draw centered vertical line to link estimators */
+  background-image: linear-gradient(var(--sklearn-color-text-on-default-background), var(--sklearn-color-text-on-default-background));
+  background-size: 2px 100%;
+  background-repeat: no-repeat;
+  background-position: center center;
+}
+
+/* Parallel-specific style estimator block */
+
+.sk-global div.sk-parallel-item::after {
+  content: "";
+  width: 100%;
+  border-bottom: 2px solid var(--sklearn-color-text-on-default-background);
+  flex-grow: 1;
+}
+
+.sk-global div.sk-parallel {
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  background-color: var(--sklearn-color-background);
+  position: relative;
+}
+
+.sk-global div.sk-parallel-item {
+  display: flex;
+  flex-direction: column;
+}
+
+.sk-global div.sk-parallel-item:first-child::after {
+  align-self: flex-end;
+  width: 50%;
+}
+
+.sk-global div.sk-parallel-item:last-child::after {
+  align-self: flex-start;
+  width: 50%;
+}
+
+.sk-global div.sk-parallel-item:only-child::after {
+  width: 0;
+}
+
+/* Serial-specific style estimator block */
+
+.sk-global div.sk-serial {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: var(--sklearn-color-background);
+  padding-right: 1em;
+  padding-left: 1em;
+}
+
+
+/* Toggleable style: style used for estimator/Pipeline/ColumnTransformer box that is
+clickable and can be expanded/collapsed.
+- Pipeline and ColumnTransformer use this feature and define the default style
+- Estimators will overwrite some part of the style using the `sk-estimator` class
+*/
+
+/* Pipeline and ColumnTransformer style (default) */
+
+.sk-global div.sk-toggleable {
+  /* Default theme specific background. It is overwritten whether we have a
+  specific estimator or a Pipeline/ColumnTransformer */
+  background-color: var(--sklearn-color-background);
+}
+
+/* Toggleable label */
+.sk-global label.sk-toggleable__label {
+  cursor: pointer;
+  display: flex;
+  width: 100%;
+  margin-bottom: 0;
+  padding: 0.5em;
+  box-sizing: border-box;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5em;
+}
+
+.sk-global label.sk-toggleable__label .caption {
+  font-size: 0.6rem;
+  font-weight: lighter;
+  color: var(--sklearn-color-text-muted);
+}
+
+.sk-global label.sk-toggleable__label-arrow:before {
+  /* Arrow on the left of the label */
+  content: "▸";
+  float: left;
+  margin-right: 0.25em;
+  color: var(--sklearn-color-icon);
+}
+
+.sk-global label.sk-toggleable__label-arrow:hover:before {
+  color: var(--sklearn-color-text);
+}
+
+/* Toggleable content - dropdown */
+
+.sk-global div.sk-toggleable__content {
+  display: none;
+  text-align: left;
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-0);
+}
+
+.sk-global div.sk-toggleable__content.fitted {
+  /* fitted */
+  background-color: var(--sklearn-color-fitted-level-0);
+}
+
+.sk-global div.sk-toggleable__content pre {
+  margin: 0.2em;
+  border-radius: 0.25em;
+  color: var(--sklearn-color-text);
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-0);
+}
+
+.sk-global div.sk-toggleable__content.fitted pre {
+  /* unfitted */
+  background-color: var(--sklearn-color-fitted-level-0);
+}
+
+.sk-global input.sk-toggleable__control:checked~div.sk-toggleable__content {
+  /* Expand drop-down */
+  display: block;
+  width: 100%;
+  overflow: visible;
+}
+
+.sk-global input.sk-toggleable__control:checked~label.sk-toggleable__label-arrow:before {
+  content: "▾";
+}
+
+/* Pipeline/ColumnTransformer-specific style */
+
+.sk-global div.sk-label input.sk-toggleable__control:checked~label.sk-toggleable__label {
+  color: var(--sklearn-color-text);
+  background-color: var(--sklearn-color-unfitted-level-2);
+}
+
+.sk-global div.sk-label.fitted input.sk-toggleable__control:checked~label.sk-toggleable__label {
+  background-color: var(--sklearn-color-fitted-level-2);
+}
+
+/* Estimator-specific style */
+
+/* Colorize estimator box */
+.sk-global div.sk-estimator input.sk-toggleable__control:checked~label.sk-toggleable__label {
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-2);
+}
+
+.sk-global div.sk-estimator.fitted input.sk-toggleable__control:checked~label.sk-toggleable__label {
+  /* fitted */
+  background-color: var(--sklearn-color-fitted-level-2);
+}
+
+.sk-global div.sk-label label.sk-toggleable__label,
+.sk-global div.sk-label label {
+  /* The background is the default theme color */
+  color: var(--sklearn-color-text-on-default-background);
+}
+
+/* On hover, darken the color of the background */
+.sk-global div.sk-label:hover label.sk-toggleable__label {
+  color: var(--sklearn-color-text);
+  background-color: var(--sklearn-color-unfitted-level-2);
+}
+
+/* Label box, darken color on hover, fitted */
+.sk-global div.sk-label.fitted:hover label.sk-toggleable__label.fitted {
+  color: var(--sklearn-color-text);
+  background-color: var(--sklearn-color-fitted-level-2);
+}
+
+/* Estimator label */
+
+.sk-global div.sk-label label {
+  font-family: monospace;
+  font-weight: bold;
+  line-height: 1.2em;
+}
+
+.sk-global div.sk-label-container {
+  text-align: center;
+}
+
+/* Estimator-specific */
+.sk-global div.sk-estimator {
+  font-family: monospace;
+  border: 1px dotted var(--sklearn-color-border-box);
+  border-radius: 0.25em;
+  box-sizing: border-box;
+  margin-bottom: 0.5em;
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-0);
+}
+
+.sk-global div.sk-estimator.fitted {
+  /* fitted */
+  background-color: var(--sklearn-color-fitted-level-0);
+}
+
+/* on hover */
+.sk-global div.sk-estimator:hover {
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-2);
+}
+
+.sk-global div.sk-estimator.fitted:hover {
+  /* fitted */
+  background-color: var(--sklearn-color-fitted-level-2);
+}
+
+/* Specification for estimator info (e.g. "i" and "?") */
+
+/* Common style for "i" and "?" */
+
+.sk-estimator-doc-link,
+a:link.sk-estimator-doc-link,
+a:visited.sk-estimator-doc-link {
+  float: right;
+  font-size: smaller;
+  line-height: 1em;
+  font-family: monospace;
+  background-color: var(--sklearn-color-unfitted-level-0);
+  border-radius: 1em;
+  height: 1em;
+  width: 1em;
+  text-decoration: none !important;
+  margin-left: 0.5em;
+  text-align: center;
+  /* unfitted */
+  border: var(--sklearn-color-unfitted-level-3) 1pt solid;
+  color: var(--sklearn-color-unfitted-level-3);
+}
+
+.sk-estimator-doc-link.fitted,
+a:link.sk-estimator-doc-link.fitted,
+a:visited.sk-estimator-doc-link.fitted {
+  /* fitted */
+  background-color: var(--sklearn-color-fitted-level-0);
+  border: var(--sklearn-color-fitted-level-3) 1pt solid;
+  color: var(--sklearn-color-fitted-level-3);
+}
+
+/* On hover */
+div.sk-estimator:hover .sk-estimator-doc-link:hover,
+.sk-estimator-doc-link:hover,
+div.sk-label-container:hover .sk-estimator-doc-link:hover,
+.sk-estimator-doc-link:hover {
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-3);
+  border: var(--sklearn-color-fitted-level-0) 1pt solid;
+  color: var(--sklearn-color-unfitted-level-0);
+  text-decoration: none;
+}
+
+div.sk-estimator.fitted:hover .sk-estimator-doc-link.fitted:hover,
+.sk-estimator-doc-link.fitted:hover,
+div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
+.sk-estimator-doc-link.fitted:hover {
+  /* fitted */
+  background-color: var(--sklearn-color-fitted-level-3);
+  border: var(--sklearn-color-fitted-level-0) 1pt solid;
+  color: var(--sklearn-color-fitted-level-0);
+  text-decoration: none;
+}
+
+/* Span, style for the box shown on hovering the info icon */
+.sk-estimator-doc-link span {
+  display: none;
+  z-index: 9999;
+  position: relative;
+  font-weight: normal;
+  right: .2ex;
+  padding: .5ex;
+  margin: .5ex;
+  width: min-content;
+  min-width: 20ex;
+  max-width: 50ex;
+  color: var(--sklearn-color-text);
+  box-shadow: 2pt 2pt 4pt #999;
+  /* unfitted */
+  background: var(--sklearn-color-unfitted-level-0);
+  border: .5pt solid var(--sklearn-color-unfitted-level-3);
+}
+
+.sk-estimator-doc-link.fitted span {
+  /* fitted */
+  background: var(--sklearn-color-fitted-level-0);
+  border: var(--sklearn-color-fitted-level-3);
+}
+
+.sk-estimator-doc-link:hover span {
+  display: block;
+}
+
+/* "?"-specific style due to the `<a>` HTML tag */
+
+.sk-global a.estimator_doc_link {
+  float: right;
+  font-size: 1rem;
+  line-height: 1em;
+  font-family: monospace;
+  background-color: var(--sklearn-color-unfitted-level-0);
+  border-radius: 1rem;
+  height: 1rem;
+  width: 1rem;
+  text-decoration: none;
+  /* unfitted */
+  color: var(--sklearn-color-unfitted-level-1);
+  border: var(--sklearn-color-unfitted-level-1) 1pt solid;
+}
+
+.sk-global a.estimator_doc_link.fitted {
+  /* fitted */
+  background-color: var(--sklearn-color-fitted-level-0);
+  border: var(--sklearn-color-fitted-level-1) 1pt solid;
+  color: var(--sklearn-color-fitted-level-1);
+}
+
+/* On hover */
+.sk-global a.estimator_doc_link:hover {
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-3);
+  color: var(--sklearn-color-background);
+  text-decoration: none;
+}
+
+.sk-global a.estimator_doc_link.fitted:hover {
+  /* fitted */
+  background-color: var(--sklearn-color-fitted-level-3);
+}
+
+.sk-top-container.sk-global {
+  /* pydata-sphinx-theme hides overflow, so scrolling is disabled.
+   We need to set it to !important and add tabindex="0" in the HTML
+   to allow keyboard-only users to navigate the display. */
+  overflow-x: scroll !important;
+  max-width: 100%;
+}
+
+.estimator-table {
+    font-family: monospace;
+}
+
+.estimator-table summary {
+    padding: .5rem;
+    cursor: pointer;
+}
+
+.estimator-table summary::marker {
+    font-size: 0.7rem;
+}
+
+.estimator-table details[open] {
+    padding-left: 0.1rem;
+    padding-right: 0.1rem;
+    padding-bottom: 0.3rem;
+}
+
+.estimator-table .parameters-table {
+    margin-left: auto !important;
+    margin-right: auto !important;
+    margin-top: 0;
+}
+
+.estimator-table .parameters-table tr:nth-child(odd) {
+    background-color: #fff;
+}
+
+.estimator-table .parameters-table tr:nth-child(even) {
+    background-color: #f6f6f6;
+}
+
+.estimator-table .parameters-table tr:hover td {
+    background-color: #e0e0e0;
+}
+
+.estimator-table table :is(td, th) {
+    border: 1px solid rgba(106, 105, 104, 0.232);
+}
+
+/*
+    `table td`is set in notebook with right text-align.
+    We need to overwrite it.
+*/
+.estimator-table table td.param {
+    text-align: left;
+    position: relative;
+    padding: 0;
+}
+
+.user-set td {
+    color:rgb(255, 94, 0);
+    text-align: left !important;
+}
+
+.user-set td.value {
+    color:rgb(255, 94, 0);
+    background-color: transparent;
+}
+
+.default td, .estimator-table th {
+    color: black;
+    text-align: left !important;
+}
+
+.user-set td i,
+.default td i {
+    color: black;
+}
+
+td.fitted-att-type {
+    white-space: preserve nowrap;
+}
+
+/*
+    Styles for parameter documentation links
+    We need styling for visited so jupyter doesn't overwrite it
+*/
+a.param-doc-link,
+a.param-doc-link:link,
+a.param-doc-link:visited {
+    text-decoration: underline dashed;
+    text-underline-offset: .3em;
+    color: inherit;
+    display: block;
+    padding: .5em;
+}
+
+@supports(anchor-name: --doc-link) {
+    a.param-doc-link,
+    a.param-doc-link:link,
+    a.param-doc-link:visited {
+    anchor-name: --doc-link;
+    }
+}
+
+/* "hack" to make the entire area of the cell containing the link clickable */
+a.param-doc-link::before {
+    position: absolute;
+    content: "";
+    inset: 0;
+}
+
+.param-doc-description {
+    display: none;
+    position: absolute;
+    z-index: 9999;
+    left: 0;
+    padding: .5ex;
+    margin-left: 1.5em;
+    color: var(--sklearn-color-text);
+    box-shadow: .3em .3em .4em #999;
+    width: max-content;
+    text-align: left;
+    max-height: 10em;
+    overflow-y: auto;
+
+    /* unfitted */
+    background: var(--sklearn-color-unfitted-level-0);
+    border: thin solid var(--sklearn-color-unfitted-level-3);
+}
+
+@supports(position-area: center right) {
+    .param-doc-description {
+    position-area: center right;
+    position: fixed;
+    margin-left: 0;
+    }
+}
+
+/* Fitted state for parameter tooltips */
+.fitted .param-doc-description {
+    /* fitted */
+    background: var(--sklearn-color-fitted-level-0);
+    border: thin solid var(--sklearn-color-fitted-level-3);
+}
+
+.param-doc-link:hover .param-doc-description {
+    display: block;
+}
+
+.copy-paste-icon {
+    background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0NDggNTEyIj48IS0tIUZvbnQgQXdlc29tZSBGcmVlIDYuNy4yIGJ5IEBmb250YXdlc29tZSAtIGh0dHBzOi8vZm9udGF3ZXNvbWUuY29tIExpY2Vuc2UgLSBodHRwczovL2ZvbnRhd2Vzb21lLmNvbS9saWNlbnNlL2ZyZWUgQ29weXJpZ2h0IDIwMjUgRm9udGljb25zLCBJbmMuLS0+PHBhdGggZD0iTTIwOCAwTDMzMi4xIDBjMTIuNyAwIDI0LjkgNS4xIDMzLjkgMTQuMWw2Ny45IDY3LjljOSA5IDE0LjEgMjEuMiAxNC4xIDMzLjlMNDQ4IDMzNmMwIDI2LjUtMjEuNSA0OC00OCA0OGwtMTkyIDBjLTI2LjUgMC00OC0yMS41LTQ4LTQ4bDAtMjg4YzAtMjYuNSAyMS41LTQ4IDQ4LTQ4ek00OCAxMjhsODAgMCAwIDY0LTY0IDAgMCAyNTYgMTkyIDAgMC0zMiA2NCAwIDAgNDhjMCAyNi41LTIxLjUgNDgtNDggNDhMNDggNTEyYy0yNi41IDAtNDgtMjEuNS00OC00OEwwIDE3NmMwLTI2LjUgMjEuNS00OCA0OC00OHoiLz48L3N2Zz4=);
+    background-repeat: no-repeat;
+    background-size: 14px 14px;
+    background-position: 0;
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    cursor: pointer;
+    border: none;
+    padding: 0;
+    background-color: transparent;
+}
+
+.copy-paste-icon:focus-visible {
+    outline: 1px solid currentColor;
+    outline-offset: 1px;
+}
+
+.features {
+  font-family: monospace;
+  cursor: pointer;
+  background-color: var(--sklearn-color-unfitted-level-0);
+  border: 1px dotted var(--sklearn-color-border-box);
+  border-radius: .20em;
+  margin-bottom: 0.5em;
+  font-size: inherit; /* Needed for jupyter */
+}
+
+.features.fitted {
+  background-color: var(--sklearn-color-fitted-level-0);
+}
+
+.features summary {
+  cursor: pointer;
+  display: flex;
+  margin-bottom: 0;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5em;
+  padding: .25em;
+}
+
+.features details[open] > summary {
+  color: var(--sklearn-color-text);
+  background-color: var(--sklearn-color-unfitted-level-2);
+  border-radius: .20em 0 0 0;
+}
+
+.features.fitted details[open] > summary {
+  background-color: var(--sklearn-color-fitted-level-2);
+  border-radius: .20em 0 0 0;
+}
+
+.features details > summary .arrow::before {
+  content: "▸";
+  color: grey;
+}
+
+.features details[open] > summary .arrow::before {
+  content: "▾";
+}
+
+.features details:hover > summary {
+  margin: 0;
+  background-color: var(--sklearn-color-unfitted-level-2);
+}
+
+.features.fitted details:hover > summary {
+  margin: 0;
+  background-color: var(--sklearn-color-fitted-level-2);
+}
+
+.features .features-container {
+  max-height: 10em;
+  overflow: auto;
+  scrollbar-width: thin;
+  padding: .25em 0.1rem;
+  background-color: var(--sklearn-color-unfitted-level-0);
+  border-radius: 0 0 .5em .5em;
+}
+
+.features.fitted .features-container {
+  background-color: var(--sklearn-color-fitted-level-0);
+}
+
+.features .image-container {
+  block-size: 1em;
+  inline-size: 1em;
+  padding: 0;
+  margin: 0%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.features .copy-paste-icon {
+  background-size: 1em 1em;
+  width: 1em;
+  height: 1em;
+  filter: grayscale(100%) opacity(60%);
+}
+
+.features .features-container table {
+  width: 100%;
+  margin: 0.01em;
+}
+
+.features .features-container table tr:nth-child(odd) {
+  background-color: #fff;
+}
+
+.features .features-container table tr:nth-child(even) {
+  background-color: #f6f6f6;
+}
+
+.features .features-container table tr:hover {
+  background-color: #e0e0e0;
+}
+
+.features .features-container table {
+  table-layout: inherit;
+}
+
+.features .features-container table td {
+  text-align: left;
+  padding: 0 0.5em;
+  border: 1px solid rgba(106, 105, 104, 0.232);
+  white-space: nowrap;
+  color: var(--sklearn-color-text);
+}
+
+.total_features {
+  display: flex;
+  justify-content: center;
+  margin-top: 0.5em;
+}
+</style><div id="sk-container-id-1" tabindex="0" class="sk-top-container sk-global"><div class="sk-text-repr-fallback"><pre>ColumnTransformer(transformers=[('pipeline-1',
+                                 Pipeline(steps=[('simpleimputer',
+                                                  SimpleImputer(strategy='median')),
+                                                 ('standardscaler',
+                                                  StandardScaler())]),
+                                 ['danceability', 'energy', 'valence',
+                                  'loudness', 'tempo', 'acousticness',
+                                  'speechiness', 'instrumentalness', 'liveness',
+                                  'spotify_track_duration_ms', 'year']),
+                                ('pipeline-2',
+                                 Pipeline(steps=[('simpleimputer',
+                                                  SimpleImputer(strategy='most_frequent')),
+                                                 ('onehotencoder',
+                                                  OneHotEncoder(handle_unknown='ignore',
+                                                                sparse_output=False))]),
+                                 ['primary_genre']),
+                                ('onehotencoder',
+                                 OneHotEncoder(drop='if_binary',
+                                               sparse_output=False),
+                                 ['spotify_track_explicit'])])</pre><b>In a Jupyter environment, please rerun this cell to show the HTML representation or trust the notebook. <br>On GitHub, the HTML representation is unable to render, please try loading this page with nbviewer.org.</b></div><div class="sk-container" hidden=""><div class="sk-item sk-dashed-wrapped"><div class="sk-label-container"><div class="sk-label  sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually sk-global" id="sk-estimator-id-1" type="checkbox"><label for="sk-estimator-id-1" class="sk-toggleable__label  sk-toggleable__label-arrow"><div><div>ColumnTransformer</div></div><div><a class="sk-estimator-doc-link " rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.9/modules/generated/sklearn.compose.ColumnTransformer.html">?<span>Documentation for ColumnTransformer</span></a><span class="sk-estimator-doc-link ">i<span>Not fitted</span></span></div></label><div class="sk-toggleable__content " data-param-prefix="">
+        <div class="estimator-table">
+            <details>
+                <summary>Parameters</summary>
+                
+<table class="parameters-table caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<tbody>
+<tr class="user-set odd">
+<td><button type="button" class="copy-paste-icon" aria-label="Copy transformers to clipboard" onclick="copyToClipboard('transformers',
+                          this.parentElement.nextElementSibling)">
+</button></td>
+<td class="param"><a href="https://scikit-learn.org/1.9/modules/generated/sklearn.compose.ColumnTransformer.html#:~:text=transformers,-list%20of%20tuples" class="param-doc-link" style="anchor-name: --doc-link-transformers;" rel="noreferrer" target="_blank">transformers <span class="param-doc-description" style="position-anchor: --doc-link-transformers;"> transformers: list of tuples<br>
+<br>
+List of (name, transformer, columns) tuples specifying the<br>
+transformer objects to be applied to subsets of the data.<br>
+<br>
+name : str<br>
+Like in Pipeline and FeatureUnion, this allows the transformer and<br>
+its parameters to be set using ``set_params`` and searched in grid<br>
+search.<br>
+transformer : {'drop', 'passthrough'} or estimator<br>
+Estimator must support :term:`fit` and :term:`transform`.<br>
+Special-cased strings 'drop' and 'passthrough' are accepted as<br>
+well, to indicate to drop the columns or to pass them through<br>
+untransformed, respectively.<br>
+columns : str, array-like of str, int, array-like of int, array-like of bool, slice or callable<br>
+Indexes the data on its second axis. Integers are interpreted as<br>
+positional columns, while strings can reference DataFrame columns<br>
+by name. A scalar string or int should be used where<br>
+``transformer`` expects X to be a 1d array-like (vector),<br>
+otherwise a 2d array will be passed to the transformer.<br>
+A callable is passed the input data `X` and can return any of the<br>
+above. To select multiple columns by name or dtype, you can use<br>
+:obj:`make_column_selector`.</span></a></td>
+<td class="value">[('pipeline-1', ...), ('pipeline-2', ...), ...]</td>
+</tr>
+<tr class="default even">
+<td><button type="button" class="copy-paste-icon" aria-label="Copy remainder to clipboard" onclick="copyToClipboard('remainder',
+                          this.parentElement.nextElementSibling)">
+</button></td>
+<td class="param"><a href="https://scikit-learn.org/1.9/modules/generated/sklearn.compose.ColumnTransformer.html#:~:text=remainder,-%7B%27drop%27%2C%20%27passthrough%27%7D%20or%20estimator%2C%20default%3D%27drop%27" class="param-doc-link" style="anchor-name: --doc-link-remainder;" rel="noreferrer" target="_blank">remainder <span class="param-doc-description" style="position-anchor: --doc-link-remainder;"> remainder: {'drop', 'passthrough'} or estimator, default='drop'<br>
+<br>
+By default, only the specified columns in `transformers` are<br>
+transformed and combined in the output, and the non-specified<br>
+columns are dropped. (default of ``'drop'``).<br>
+By specifying ``remainder='passthrough'``, all remaining columns that<br>
+were not specified in `transformers`, but present in the data passed<br>
+to `fit` will be automatically passed through. This subset of columns<br>
+is concatenated with the output of the transformers. For dataframes,<br>
+extra columns not seen during `fit` will be excluded from the output<br>
+of `transform`.<br>
+By setting ``remainder`` to be an estimator, the remaining<br>
+non-specified columns will use the ``remainder`` estimator. The<br>
+estimator must support :term:`fit` and :term:`transform`.<br>
+Note that using this feature requires that the DataFrame columns<br>
+input at :term:`fit` and :term:`transform` have identical order.</span></a></td>
+<td class="value">'drop'</td>
+</tr>
+<tr class="default odd">
+<td><button type="button" class="copy-paste-icon" aria-label="Copy sparse_threshold to clipboard" onclick="copyToClipboard('sparse_threshold',
+                          this.parentElement.nextElementSibling)">
+</button></td>
+<td class="param"><a href="https://scikit-learn.org/1.9/modules/generated/sklearn.compose.ColumnTransformer.html#:~:text=sparse_threshold,-float%2C%20default%3D0.3" class="param-doc-link" style="anchor-name: --doc-link-sparse_threshold;" rel="noreferrer" target="_blank">sparse_threshold <span class="param-doc-description" style="position-anchor: --doc-link-sparse_threshold;"> sparse_threshold: float, default=0.3<br>
+<br>
+If the output of the different transformers contains sparse matrices,<br>
+these will be stacked as a sparse matrix if the overall density is<br>
+lower than this value. Use ``sparse_threshold=0`` to always return<br>
+dense. When the transformed output consists of all dense data, the<br>
+stacked result will be dense, and this keyword will be ignored.</span></a></td>
+<td class="value">0.3</td>
+</tr>
+<tr class="default even">
+<td><button type="button" class="copy-paste-icon" aria-label="Copy n_jobs to clipboard" onclick="copyToClipboard('n_jobs',
+                          this.parentElement.nextElementSibling)">
+</button></td>
+<td class="param"><a href="https://scikit-learn.org/1.9/modules/generated/sklearn.compose.ColumnTransformer.html#:~:text=n_jobs,-int%2C%20default%3DNone" class="param-doc-link" style="anchor-name: --doc-link-n_jobs;" rel="noreferrer" target="_blank">n_jobs <span class="param-doc-description" style="position-anchor: --doc-link-n_jobs;"> n_jobs: int, default=None<br>
+<br>
+Number of jobs to run in parallel.<br>
+``None`` means 1 unless in a :obj:`joblib.parallel_backend` context.<br>
+``-1`` means using all processors. See :term:`Glossary &lt;n_jobs&gt;`<br>
+for more details.</span></a></td>
+<td class="value">None</td>
+</tr>
+<tr class="default odd">
+<td><button type="button" class="copy-paste-icon" aria-label="Copy transformer_weights to clipboard" onclick="copyToClipboard('transformer_weights',
+                          this.parentElement.nextElementSibling)">
+</button></td>
+<td class="param"><a href="https://scikit-learn.org/1.9/modules/generated/sklearn.compose.ColumnTransformer.html#:~:text=transformer_weights,-dict%2C%20default%3DNone" class="param-doc-link" style="anchor-name: --doc-link-transformer_weights;" rel="noreferrer" target="_blank">transformer_weights <span class="param-doc-description" style="position-anchor: --doc-link-transformer_weights;"> transformer_weights: dict, default=None<br>
+<br>
+Multiplicative weights for features per transformer. The output of the<br>
+transformer is multiplied by these weights. Keys are transformer names,<br>
+values the weights.</span></a></td>
+<td class="value">None</td>
+</tr>
+<tr class="default even">
+<td><button type="button" class="copy-paste-icon" aria-label="Copy verbose to clipboard" onclick="copyToClipboard('verbose',
+                          this.parentElement.nextElementSibling)">
+</button></td>
+<td class="param"><a href="https://scikit-learn.org/1.9/modules/generated/sklearn.compose.ColumnTransformer.html#:~:text=verbose,-bool%2C%20default%3DFalse" class="param-doc-link" style="anchor-name: --doc-link-verbose;" rel="noreferrer" target="_blank">verbose <span class="param-doc-description" style="position-anchor: --doc-link-verbose;"> verbose: bool, default=False<br>
+<br>
+If True, the time elapsed while fitting each transformer will be<br>
+printed as it is completed.</span></a></td>
+<td class="value">False</td>
+</tr>
+<tr class="default odd">
+<td><button type="button" class="copy-paste-icon" aria-label="Copy verbose_feature_names_out to clipboard" onclick="copyToClipboard('verbose_feature_names_out',
+                          this.parentElement.nextElementSibling)">
+</button></td>
+<td class="param"><a href="https://scikit-learn.org/1.9/modules/generated/sklearn.compose.ColumnTransformer.html#:~:text=verbose_feature_names_out,-bool%2C%20str%20or%20Callable%5B%5Bstr%2C%20str%5D%2C%20str%5D%2C%20default%3DTrue" class="param-doc-link" style="anchor-name: --doc-link-verbose_feature_names_out;" rel="noreferrer" target="_blank">verbose_feature_names_out <span class="param-doc-description" style="position-anchor: --doc-link-verbose_feature_names_out;"> verbose_feature_names_out: bool, str or Callable[[str, str], str], default=True<br>
+<br>
+- If True, :meth:`ColumnTransformer.get_feature_names_out` will prefix<br>
+all feature names with the name of the transformer that generated that<br>
+feature. It is equivalent to setting<br>
+`verbose_feature_names_out="{transformer_name}__{feature_name}"`.<br>
+- If False, :meth:`ColumnTransformer.get_feature_names_out` will not<br>
+prefix any feature names and will error if feature names are not<br>
+unique.<br>
+- If ``Callable[[str, str], str]``,<br>
+:meth:`ColumnTransformer.get_feature_names_out` will rename all the features<br>
+using the name of the transformer. The first argument of the callable is the<br>
+transformer name and the second argument is the feature name. The returned<br>
+string will be the new feature name.<br>
+- If ``str``, it must be a string ready for formatting. The given string will<br>
+be formatted using two field names: ``transformer_name`` and ``feature_name``.<br>
+e.g. ``"{feature_name}__{transformer_name}"``. See :meth:`str.format` method<br>
+from the standard library for more info.<br>
+<br>
+.. versionadded:: 1.0<br>
+<br>
+.. versionchanged:: 1.6<br>
+`verbose_feature_names_out` can be a callable or a string to be formatted.</span></a></td>
+<td class="value">True</td>
+</tr>
+</tbody>
+</table>
+
+            </details>
+        </div>
+    </div></div></div><div class="sk-parallel"><div class="sk-parallel-item"><div class="sk-item"><div class="sk-label-container"><div class="sk-label  sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually sk-global" id="sk-estimator-id-2" type="checkbox"><label for="sk-estimator-id-2" class="sk-toggleable__label  sk-toggleable__label-arrow"><div><div>pipeline-1</div></div></label><div class="sk-toggleable__content " data-param-prefix="pipeline-1__"><pre>['danceability', 'energy', 'valence', 'loudness', 'tempo', 'acousticness', 'speechiness', 'instrumentalness', 'liveness', 'spotify_track_duration_ms', 'year']</pre></div></div></div><div class="sk-serial"><div class="sk-item"><div class="sk-serial"><div class="sk-item"><div class="sk-estimator  sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually sk-global" id="sk-estimator-id-3" type="checkbox"><label for="sk-estimator-id-3" class="sk-toggleable__label  sk-toggleable__label-arrow"><div><div>SimpleImputer</div></div><div><a class="sk-estimator-doc-link " rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.9/modules/generated/sklearn.impute.SimpleImputer.html">?<span>Documentation for SimpleImputer</span></a></div></label><div class="sk-toggleable__content " data-param-prefix="pipeline-1__simpleimputer__">
+        <div class="estimator-table">
+            <details>
+                <summary>Parameters</summary>
+                
+<table class="parameters-table caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<tbody>
+<tr class="user-set odd">
+<td><button type="button" class="copy-paste-icon" aria-label="Copy strategy to clipboard" onclick="copyToClipboard('strategy',
+                          this.parentElement.nextElementSibling)">
+</button></td>
+<td class="param"><a href="https://scikit-learn.org/1.9/modules/generated/sklearn.impute.SimpleImputer.html#:~:text=strategy,-str%20or%20Callable%2C%20default%3D%27mean%27" class="param-doc-link" style="anchor-name: --doc-link-strategy;" rel="noreferrer" target="_blank">strategy <span class="param-doc-description" style="position-anchor: --doc-link-strategy;"> strategy: str or Callable, default='mean'<br>
+<br>
+The imputation strategy.<br>
+<br>
+- If "mean", then replace missing values using the mean along<br>
+each column. Can only be used with numeric data.<br>
+- If "median", then replace missing values using the median along<br>
+each column. Can only be used with numeric data.<br>
+- If "most_frequent", then replace missing using the most frequent<br>
+value along each column. Can be used with strings or numeric data.<br>
+If there is more than one such value, only the smallest is returned.<br>
+- If "constant", then replace missing values with fill_value. Can be<br>
+used with strings or numeric data.<br>
+- If an instance of Callable, then replace missing values using the<br>
+scalar statistic returned by running the callable over a dense 1d<br>
+array containing non-missing values of each column.<br>
+<br>
+.. versionadded:: 0.20<br>
+strategy="constant" for fixed value imputation.<br>
+<br>
+.. versionadded:: 1.5<br>
+strategy=callable for custom value imputation.</span></a></td>
+<td class="value">'median'</td>
+</tr>
+<tr class="default even">
+<td><button type="button" class="copy-paste-icon" aria-label="Copy missing_values to clipboard" onclick="copyToClipboard('missing_values',
+                          this.parentElement.nextElementSibling)">
+</button></td>
+<td class="param"><a href="https://scikit-learn.org/1.9/modules/generated/sklearn.impute.SimpleImputer.html#:~:text=missing_values,-int%2C%20float%2C%20str%2C%20np.nan%2C%20None%20or%20pandas.NA%2C%20default%3Dnp.nan" class="param-doc-link" style="anchor-name: --doc-link-missing_values;" rel="noreferrer" target="_blank">missing_values <span class="param-doc-description" style="position-anchor: --doc-link-missing_values;"> missing_values: int, float, str, np.nan, None or pandas.NA, default=np.nan<br>
+<br>
+The placeholder for the missing values. All occurrences of<br>
+`missing_values` will be imputed. For pandas' dataframes with<br>
+nullable integer dtypes with missing values, `missing_values`<br>
+can be set to either `np.nan` or `pd.NA`.</span></a></td>
+<td class="value">nan</td>
+</tr>
+<tr class="default odd">
+<td><button type="button" class="copy-paste-icon" aria-label="Copy fill_value to clipboard" onclick="copyToClipboard('fill_value',
+                          this.parentElement.nextElementSibling)">
+</button></td>
+<td class="param"><a href="https://scikit-learn.org/1.9/modules/generated/sklearn.impute.SimpleImputer.html#:~:text=fill_value,-str%20or%20numerical%20value%2C%20default%3DNone" class="param-doc-link" style="anchor-name: --doc-link-fill_value;" rel="noreferrer" target="_blank">fill_value <span class="param-doc-description" style="position-anchor: --doc-link-fill_value;"> fill_value: str or numerical value, default=None<br>
+<br>
+When strategy == "constant", `fill_value` is used to replace all<br>
+occurrences of missing_values. For string or object data types,<br>
+`fill_value` must be a string.<br>
+If `None`, `fill_value` will be 0 when imputing numerical<br>
+data and "missing_value" for strings or object data types.</span></a></td>
+<td class="value">None</td>
+</tr>
+<tr class="default even">
+<td><button type="button" class="copy-paste-icon" aria-label="Copy copy to clipboard" onclick="copyToClipboard('copy',
+                          this.parentElement.nextElementSibling)">
+</button></td>
+<td class="param"><a href="https://scikit-learn.org/1.9/modules/generated/sklearn.impute.SimpleImputer.html#:~:text=copy,-bool%2C%20default%3DTrue" class="param-doc-link" style="anchor-name: --doc-link-copy;" rel="noreferrer" target="_blank">copy <span class="param-doc-description" style="position-anchor: --doc-link-copy;"> copy: bool, default=True<br>
+<br>
+If True, a copy of X will be created. If False, imputation will<br>
+be done in-place whenever possible. Note that, in the following cases,<br>
+a new copy will always be made, even if `copy=False`:<br>
+<br>
+- If `X` is not an array of floating values;<br>
+- If `X` is encoded as a CSR matrix;<br>
+- If `add_indicator=True`.</span></a></td>
+<td class="value">True</td>
+</tr>
+<tr class="default odd">
+<td><button type="button" class="copy-paste-icon" aria-label="Copy add_indicator to clipboard" onclick="copyToClipboard('add_indicator',
+                          this.parentElement.nextElementSibling)">
+</button></td>
+<td class="param"><a href="https://scikit-learn.org/1.9/modules/generated/sklearn.impute.SimpleImputer.html#:~:text=add_indicator,-bool%2C%20default%3DFalse" class="param-doc-link" style="anchor-name: --doc-link-add_indicator;" rel="noreferrer" target="_blank">add_indicator <span class="param-doc-description" style="position-anchor: --doc-link-add_indicator;"> add_indicator: bool, default=False<br>
+<br>
+If True, a :class:`MissingIndicator` transform will stack onto output<br>
+of the imputer's transform. This allows a predictive estimator<br>
+to account for missingness despite imputation. If a feature has no<br>
+missing values at fit/train time, the feature won't appear on<br>
+the missing indicator even if there are missing values at<br>
+transform/test time.</span></a></td>
+<td class="value">False</td>
+</tr>
+<tr class="default even">
+<td><button type="button" class="copy-paste-icon" aria-label="Copy keep_empty_features to clipboard" onclick="copyToClipboard('keep_empty_features',
+                          this.parentElement.nextElementSibling)">
+</button></td>
+<td class="param"><a href="https://scikit-learn.org/1.9/modules/generated/sklearn.impute.SimpleImputer.html#:~:text=keep_empty_features,-bool%2C%20default%3DFalse" class="param-doc-link" style="anchor-name: --doc-link-keep_empty_features;" rel="noreferrer" target="_blank">keep_empty_features <span class="param-doc-description" style="position-anchor: --doc-link-keep_empty_features;"> keep_empty_features: bool, default=False<br>
+<br>
+If True, features that consist exclusively of missing values when<br>
+`fit` is called are returned in results when `transform` is called.<br>
+The imputed value is always `0` except when `strategy="constant"`<br>
+in which case `fill_value` will be used instead.<br>
+<br>
+.. versionadded:: 1.2</span></a></td>
+<td class="value">False</td>
+</tr>
+</tbody>
+</table>
+
+            </details>
+        </div>
+    </div></div></div><div class="sk-item"><div class="sk-estimator  sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually sk-global" id="sk-estimator-id-4" type="checkbox"><label for="sk-estimator-id-4" class="sk-toggleable__label  sk-toggleable__label-arrow"><div><div>StandardScaler</div></div><div><a class="sk-estimator-doc-link " rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.9/modules/generated/sklearn.preprocessing.StandardScaler.html">?<span>Documentation for StandardScaler</span></a></div></label><div class="sk-toggleable__content " data-param-prefix="pipeline-1__standardscaler__">
+        <div class="estimator-table">
+            <details>
+                <summary>Parameters</summary>
+                
+<table class="parameters-table caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<tbody>
+<tr class="default odd">
+<td><button type="button" class="copy-paste-icon" aria-label="Copy copy to clipboard" onclick="copyToClipboard('copy',
+                          this.parentElement.nextElementSibling)">
+</button></td>
+<td class="param"><a href="https://scikit-learn.org/1.9/modules/generated/sklearn.preprocessing.StandardScaler.html#:~:text=copy,-bool%2C%20default%3DTrue" class="param-doc-link" style="anchor-name: --doc-link-copy;" rel="noreferrer" target="_blank">copy <span class="param-doc-description" style="position-anchor: --doc-link-copy;"> copy: bool, default=True<br>
+<br>
+If False, try to avoid a copy and do inplace scaling instead.<br>
+This is not guaranteed to always work inplace; e.g. if the data is<br>
+not a NumPy array or scipy.sparse CSR matrix, a copy may still be<br>
+returned.</span></a></td>
+<td class="value">True</td>
+</tr>
+<tr class="default even">
+<td><button type="button" class="copy-paste-icon" aria-label="Copy with_mean to clipboard" onclick="copyToClipboard('with_mean',
+                          this.parentElement.nextElementSibling)">
+</button></td>
+<td class="param"><a href="https://scikit-learn.org/1.9/modules/generated/sklearn.preprocessing.StandardScaler.html#:~:text=with_mean,-bool%2C%20default%3DTrue" class="param-doc-link" style="anchor-name: --doc-link-with_mean;" rel="noreferrer" target="_blank">with_mean <span class="param-doc-description" style="position-anchor: --doc-link-with_mean;"> with_mean: bool, default=True<br>
+<br>
+If True, center the data before scaling.<br>
+This does not work (and will raise an exception) when attempted on<br>
+sparse matrices, because centering them entails building a dense<br>
+matrix which in common use cases is likely to be too large to fit in<br>
+memory.</span></a></td>
+<td class="value">True</td>
+</tr>
+<tr class="default odd">
+<td><button type="button" class="copy-paste-icon" aria-label="Copy with_std to clipboard" onclick="copyToClipboard('with_std',
+                          this.parentElement.nextElementSibling)">
+</button></td>
+<td class="param"><a href="https://scikit-learn.org/1.9/modules/generated/sklearn.preprocessing.StandardScaler.html#:~:text=with_std,-bool%2C%20default%3DTrue" class="param-doc-link" style="anchor-name: --doc-link-with_std;" rel="noreferrer" target="_blank">with_std <span class="param-doc-description" style="position-anchor: --doc-link-with_std;"> with_std: bool, default=True<br>
+<br>
+If True, scale the data to unit variance (or equivalently,<br>
+unit standard deviation).</span></a></td>
+<td class="value">True</td>
+</tr>
+</tbody>
+</table>
+
+            </details>
+        </div>
+    </div></div></div></div></div></div></div></div><div class="sk-parallel-item"><div class="sk-item"><div class="sk-label-container"><div class="sk-label  sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually sk-global" id="sk-estimator-id-5" type="checkbox"><label for="sk-estimator-id-5" class="sk-toggleable__label  sk-toggleable__label-arrow"><div><div>pipeline-2</div></div></label><div class="sk-toggleable__content " data-param-prefix="pipeline-2__"><pre>['primary_genre']</pre></div></div></div><div class="sk-serial"><div class="sk-item"><div class="sk-serial"><div class="sk-item"><div class="sk-estimator  sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually sk-global" id="sk-estimator-id-6" type="checkbox"><label for="sk-estimator-id-6" class="sk-toggleable__label  sk-toggleable__label-arrow"><div><div>SimpleImputer</div></div><div><a class="sk-estimator-doc-link " rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.9/modules/generated/sklearn.impute.SimpleImputer.html">?<span>Documentation for SimpleImputer</span></a></div></label><div class="sk-toggleable__content " data-param-prefix="pipeline-2__simpleimputer__">
+        <div class="estimator-table">
+            <details>
+                <summary>Parameters</summary>
+                
+<table class="parameters-table caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<tbody>
+<tr class="user-set odd">
+<td><button type="button" class="copy-paste-icon" aria-label="Copy strategy to clipboard" onclick="copyToClipboard('strategy',
+                          this.parentElement.nextElementSibling)">
+</button></td>
+<td class="param"><a href="https://scikit-learn.org/1.9/modules/generated/sklearn.impute.SimpleImputer.html#:~:text=strategy,-str%20or%20Callable%2C%20default%3D%27mean%27" class="param-doc-link" style="anchor-name: --doc-link-strategy;" rel="noreferrer" target="_blank">strategy <span class="param-doc-description" style="position-anchor: --doc-link-strategy;"> strategy: str or Callable, default='mean'<br>
+<br>
+The imputation strategy.<br>
+<br>
+- If "mean", then replace missing values using the mean along<br>
+each column. Can only be used with numeric data.<br>
+- If "median", then replace missing values using the median along<br>
+each column. Can only be used with numeric data.<br>
+- If "most_frequent", then replace missing using the most frequent<br>
+value along each column. Can be used with strings or numeric data.<br>
+If there is more than one such value, only the smallest is returned.<br>
+- If "constant", then replace missing values with fill_value. Can be<br>
+used with strings or numeric data.<br>
+- If an instance of Callable, then replace missing values using the<br>
+scalar statistic returned by running the callable over a dense 1d<br>
+array containing non-missing values of each column.<br>
+<br>
+.. versionadded:: 0.20<br>
+strategy="constant" for fixed value imputation.<br>
+<br>
+.. versionadded:: 1.5<br>
+strategy=callable for custom value imputation.</span></a></td>
+<td class="value">'most_frequent'</td>
+</tr>
+<tr class="default even">
+<td><button type="button" class="copy-paste-icon" aria-label="Copy missing_values to clipboard" onclick="copyToClipboard('missing_values',
+                          this.parentElement.nextElementSibling)">
+</button></td>
+<td class="param"><a href="https://scikit-learn.org/1.9/modules/generated/sklearn.impute.SimpleImputer.html#:~:text=missing_values,-int%2C%20float%2C%20str%2C%20np.nan%2C%20None%20or%20pandas.NA%2C%20default%3Dnp.nan" class="param-doc-link" style="anchor-name: --doc-link-missing_values;" rel="noreferrer" target="_blank">missing_values <span class="param-doc-description" style="position-anchor: --doc-link-missing_values;"> missing_values: int, float, str, np.nan, None or pandas.NA, default=np.nan<br>
+<br>
+The placeholder for the missing values. All occurrences of<br>
+`missing_values` will be imputed. For pandas' dataframes with<br>
+nullable integer dtypes with missing values, `missing_values`<br>
+can be set to either `np.nan` or `pd.NA`.</span></a></td>
+<td class="value">nan</td>
+</tr>
+<tr class="default odd">
+<td><button type="button" class="copy-paste-icon" aria-label="Copy fill_value to clipboard" onclick="copyToClipboard('fill_value',
+                          this.parentElement.nextElementSibling)">
+</button></td>
+<td class="param"><a href="https://scikit-learn.org/1.9/modules/generated/sklearn.impute.SimpleImputer.html#:~:text=fill_value,-str%20or%20numerical%20value%2C%20default%3DNone" class="param-doc-link" style="anchor-name: --doc-link-fill_value;" rel="noreferrer" target="_blank">fill_value <span class="param-doc-description" style="position-anchor: --doc-link-fill_value;"> fill_value: str or numerical value, default=None<br>
+<br>
+When strategy == "constant", `fill_value` is used to replace all<br>
+occurrences of missing_values. For string or object data types,<br>
+`fill_value` must be a string.<br>
+If `None`, `fill_value` will be 0 when imputing numerical<br>
+data and "missing_value" for strings or object data types.</span></a></td>
+<td class="value">None</td>
+</tr>
+<tr class="default even">
+<td><button type="button" class="copy-paste-icon" aria-label="Copy copy to clipboard" onclick="copyToClipboard('copy',
+                          this.parentElement.nextElementSibling)">
+</button></td>
+<td class="param"><a href="https://scikit-learn.org/1.9/modules/generated/sklearn.impute.SimpleImputer.html#:~:text=copy,-bool%2C%20default%3DTrue" class="param-doc-link" style="anchor-name: --doc-link-copy;" rel="noreferrer" target="_blank">copy <span class="param-doc-description" style="position-anchor: --doc-link-copy;"> copy: bool, default=True<br>
+<br>
+If True, a copy of X will be created. If False, imputation will<br>
+be done in-place whenever possible. Note that, in the following cases,<br>
+a new copy will always be made, even if `copy=False`:<br>
+<br>
+- If `X` is not an array of floating values;<br>
+- If `X` is encoded as a CSR matrix;<br>
+- If `add_indicator=True`.</span></a></td>
+<td class="value">True</td>
+</tr>
+<tr class="default odd">
+<td><button type="button" class="copy-paste-icon" aria-label="Copy add_indicator to clipboard" onclick="copyToClipboard('add_indicator',
+                          this.parentElement.nextElementSibling)">
+</button></td>
+<td class="param"><a href="https://scikit-learn.org/1.9/modules/generated/sklearn.impute.SimpleImputer.html#:~:text=add_indicator,-bool%2C%20default%3DFalse" class="param-doc-link" style="anchor-name: --doc-link-add_indicator;" rel="noreferrer" target="_blank">add_indicator <span class="param-doc-description" style="position-anchor: --doc-link-add_indicator;"> add_indicator: bool, default=False<br>
+<br>
+If True, a :class:`MissingIndicator` transform will stack onto output<br>
+of the imputer's transform. This allows a predictive estimator<br>
+to account for missingness despite imputation. If a feature has no<br>
+missing values at fit/train time, the feature won't appear on<br>
+the missing indicator even if there are missing values at<br>
+transform/test time.</span></a></td>
+<td class="value">False</td>
+</tr>
+<tr class="default even">
+<td><button type="button" class="copy-paste-icon" aria-label="Copy keep_empty_features to clipboard" onclick="copyToClipboard('keep_empty_features',
+                          this.parentElement.nextElementSibling)">
+</button></td>
+<td class="param"><a href="https://scikit-learn.org/1.9/modules/generated/sklearn.impute.SimpleImputer.html#:~:text=keep_empty_features,-bool%2C%20default%3DFalse" class="param-doc-link" style="anchor-name: --doc-link-keep_empty_features;" rel="noreferrer" target="_blank">keep_empty_features <span class="param-doc-description" style="position-anchor: --doc-link-keep_empty_features;"> keep_empty_features: bool, default=False<br>
+<br>
+If True, features that consist exclusively of missing values when<br>
+`fit` is called are returned in results when `transform` is called.<br>
+The imputed value is always `0` except when `strategy="constant"`<br>
+in which case `fill_value` will be used instead.<br>
+<br>
+.. versionadded:: 1.2</span></a></td>
+<td class="value">False</td>
+</tr>
+</tbody>
+</table>
+
+            </details>
+        </div>
+    </div></div></div><div class="sk-item"><div class="sk-estimator  sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually sk-global" id="sk-estimator-id-7" type="checkbox"><label for="sk-estimator-id-7" class="sk-toggleable__label  sk-toggleable__label-arrow"><div><div>OneHotEncoder</div></div><div><a class="sk-estimator-doc-link " rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.9/modules/generated/sklearn.preprocessing.OneHotEncoder.html">?<span>Documentation for OneHotEncoder</span></a></div></label><div class="sk-toggleable__content " data-param-prefix="pipeline-2__onehotencoder__">
+        <div class="estimator-table">
+            <details>
+                <summary>Parameters</summary>
+                
+<table class="parameters-table caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<tbody>
+<tr class="user-set odd">
+<td><button type="button" class="copy-paste-icon" aria-label="Copy sparse_output to clipboard" onclick="copyToClipboard('sparse_output',
+                          this.parentElement.nextElementSibling)">
+</button></td>
+<td class="param"><a href="https://scikit-learn.org/1.9/modules/generated/sklearn.preprocessing.OneHotEncoder.html#:~:text=sparse_output,-bool%2C%20default%3DTrue" class="param-doc-link" style="anchor-name: --doc-link-sparse_output;" rel="noreferrer" target="_blank">sparse_output <span class="param-doc-description" style="position-anchor: --doc-link-sparse_output;"> sparse_output: bool, default=True<br>
+<br>
+When ``True``, it returns a SciPy sparse matrix/array<br>
+in "Compressed Sparse Row" (CSR) format.<br>
+<br>
+.. versionadded:: 1.2<br>
+`sparse` was renamed to `sparse_output`</span></a></td>
+<td class="value">False</td>
+</tr>
+<tr class="user-set even">
+<td><button type="button" class="copy-paste-icon" aria-label="Copy handle_unknown to clipboard" onclick="copyToClipboard('handle_unknown',
+                          this.parentElement.nextElementSibling)">
+</button></td>
+<td class="param"><a href="https://scikit-learn.org/1.9/modules/generated/sklearn.preprocessing.OneHotEncoder.html#:~:text=handle_unknown,-%7B%27error%27%2C%20%27ignore%27%2C%20%27infrequent_if_exist%27%2C%20%27warn%27%7D%2C%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20default%3D%27error%27" class="param-doc-link" style="anchor-name: --doc-link-handle_unknown;" rel="noreferrer" target="_blank">handle_unknown <span class="param-doc-description" style="position-anchor: --doc-link-handle_unknown;"> handle_unknown: {'error', 'ignore', 'infrequent_if_exist', 'warn'}, default='error'<br>
+<br>
+Specifies the way unknown categories are handled during :meth:`transform`.<br>
+<br>
+- 'error' : Raise an error if an unknown category is present during transform.<br>
+- 'ignore' : When an unknown category is encountered during<br>
+transform, the resulting one-hot encoded columns for this feature<br>
+will be all zeros. In the inverse transform, an unknown category<br>
+will be denoted as None.<br>
+- 'infrequent_if_exist' : When an unknown category is encountered<br>
+during transform, the resulting one-hot encoded columns for this<br>
+feature will map to the infrequent category if it exists. The<br>
+infrequent category will be mapped to the last position in the<br>
+encoding. During inverse transform, an unknown category will be<br>
+mapped to the category denoted `'infrequent'` if it exists. If the<br>
+`'infrequent'` category does not exist, then :meth:`transform` and<br>
+:meth:`inverse_transform` will handle an unknown category as with<br>
+`handle_unknown='ignore'`. Infrequent categories exist based on<br>
+`min_frequency` and `max_categories`. Read more in the<br>
+:ref:`User Guide &lt;encoder_infrequent_categories&gt;`.<br>
+- 'warn' : When an unknown category is encountered during transform<br>
+a warning is issued, and the encoding then proceeds as described for<br>
+`handle_unknown="infrequent_if_exist"`.<br>
+<br>
+.. versionchanged:: 1.1<br>
+`'infrequent_if_exist'` was added to automatically handle unknown<br>
+categories and infrequent categories.<br>
+<br>
+.. versionadded:: 1.6<br>
+The option `"warn"` was added in 1.6.</span></a></td>
+<td class="value">'ignore'</td>
+</tr>
+<tr class="default odd">
+<td><button type="button" class="copy-paste-icon" aria-label="Copy categories to clipboard" onclick="copyToClipboard('categories',
+                          this.parentElement.nextElementSibling)">
+</button></td>
+<td class="param"><a href="https://scikit-learn.org/1.9/modules/generated/sklearn.preprocessing.OneHotEncoder.html#:~:text=categories,-%27auto%27%20or%20a%20list%20of%20array-like%2C%20default%3D%27auto%27" class="param-doc-link" style="anchor-name: --doc-link-categories;" rel="noreferrer" target="_blank">categories <span class="param-doc-description" style="position-anchor: --doc-link-categories;"> categories: 'auto' or a list of array-like, default='auto'<br>
+<br>
+Categories (unique values) per feature:<br>
+<br>
+- 'auto' : Determine categories automatically from the training data.<br>
+- list : ``categories[i]`` holds the categories expected in the ith<br>
+column. The passed categories should not mix strings and numeric<br>
+values within a single feature, and should be sorted in case of<br>
+numeric values.<br>
+<br>
+The used categories can be found in the ``categories_`` attribute.<br>
+<br>
+.. versionadded:: 0.20</span></a></td>
+<td class="value">'auto'</td>
+</tr>
+<tr class="default even">
+<td><button type="button" class="copy-paste-icon" aria-label="Copy drop to clipboard" onclick="copyToClipboard('drop',
+                          this.parentElement.nextElementSibling)">
+</button></td>
+<td class="param"><a href="https://scikit-learn.org/1.9/modules/generated/sklearn.preprocessing.OneHotEncoder.html#:~:text=drop,-%7B%27first%27%2C%20%27if_binary%27%7D%20or%20an%20array-like%20of%20shape%20%28n_features%2C%29%2C%20%20%20%20%20%20%20%20%20%20%20%20%20default%3DNone" class="param-doc-link" style="anchor-name: --doc-link-drop;" rel="noreferrer" target="_blank">drop <span class="param-doc-description" style="position-anchor: --doc-link-drop;"> drop: {'first', 'if_binary'} or an array-like of shape (n_features,), default=None<br>
+<br>
+Specifies a methodology to use to drop one of the categories per<br>
+feature. This is useful in situations where perfectly collinear<br>
+features cause problems, such as when feeding the resulting data<br>
+into an unregularized linear regression model.<br>
+<br>
+However, dropping one category breaks the symmetry of the original<br>
+representation and can therefore induce a bias in downstream models,<br>
+for instance for penalized linear classification or regression models.<br>
+<br>
+- None : retain all features (the default).<br>
+- 'first' : drop the first category in each feature. If only one<br>
+category is present, the feature will be dropped entirely.<br>
+- 'if_binary' : drop the first category in each feature with two<br>
+categories. Features with 1 or more than 2 categories are<br>
+left intact.<br>
+- array : ``drop[i]`` is the category in feature ``X[:, i]`` that<br>
+should be dropped.<br>
+<br>
+When `max_categories` or `min_frequency` is configured to group<br>
+infrequent categories, the dropping behavior is handled after the<br>
+grouping.<br>
+<br>
+.. versionadded:: 0.21<br>
+The parameter `drop` was added in 0.21.<br>
+<br>
+.. versionchanged:: 0.23<br>
+The option `drop='if_binary'` was added in 0.23.<br>
+<br>
+.. versionchanged:: 1.1<br>
+Support for dropping infrequent categories.</span></a></td>
+<td class="value">None</td>
+</tr>
+<tr class="default odd">
+<td><button type="button" class="copy-paste-icon" aria-label="Copy dtype to clipboard" onclick="copyToClipboard('dtype',
+                          this.parentElement.nextElementSibling)">
+</button></td>
+<td class="param"><a href="https://scikit-learn.org/1.9/modules/generated/sklearn.preprocessing.OneHotEncoder.html#:~:text=dtype,-number%20type%2C%20default%3Dnp.float64" class="param-doc-link" style="anchor-name: --doc-link-dtype;" rel="noreferrer" target="_blank">dtype <span class="param-doc-description" style="position-anchor: --doc-link-dtype;"> dtype: number type, default=np.float64<br>
+<br>
+Desired dtype of output.</span></a></td>
+<td class="value">&lt;class 'numpy.float64'&gt;</td>
+</tr>
+<tr class="default even">
+<td><button type="button" class="copy-paste-icon" aria-label="Copy min_frequency to clipboard" onclick="copyToClipboard('min_frequency',
+                          this.parentElement.nextElementSibling)">
+</button></td>
+<td class="param"><a href="https://scikit-learn.org/1.9/modules/generated/sklearn.preprocessing.OneHotEncoder.html#:~:text=min_frequency,-int%20or%20float%2C%20default%3DNone" class="param-doc-link" style="anchor-name: --doc-link-min_frequency;" rel="noreferrer" target="_blank">min_frequency <span class="param-doc-description" style="position-anchor: --doc-link-min_frequency;"> min_frequency: int or float, default=None<br>
+<br>
+Specifies the minimum frequency below which a category will be<br>
+considered infrequent.<br>
+<br>
+- If `int`, categories with a smaller cardinality will be considered<br>
+infrequent.<br>
+<br>
+- If `float`, categories with a smaller cardinality than<br>
+`min_frequency * n_samples` will be considered infrequent.<br>
+<br>
+.. versionadded:: 1.1<br>
+Read more in the :ref:`User Guide &lt;encoder_infrequent_categories&gt;`.</span></a></td>
+<td class="value">None</td>
+</tr>
+<tr class="default odd">
+<td><button type="button" class="copy-paste-icon" aria-label="Copy max_categories to clipboard" onclick="copyToClipboard('max_categories',
+                          this.parentElement.nextElementSibling)">
+</button></td>
+<td class="param"><a href="https://scikit-learn.org/1.9/modules/generated/sklearn.preprocessing.OneHotEncoder.html#:~:text=max_categories,-int%2C%20default%3DNone" class="param-doc-link" style="anchor-name: --doc-link-max_categories;" rel="noreferrer" target="_blank">max_categories <span class="param-doc-description" style="position-anchor: --doc-link-max_categories;"> max_categories: int, default=None<br>
+<br>
+Specifies an upper limit to the number of output features for each input<br>
+feature when considering infrequent categories. If there are infrequent<br>
+categories, `max_categories` includes the category representing the<br>
+infrequent categories along with the frequent categories. If `None`,<br>
+there is no limit to the number of output features.<br>
+<br>
+.. versionadded:: 1.1<br>
+Read more in the :ref:`User Guide &lt;encoder_infrequent_categories&gt;`.</span></a></td>
+<td class="value">None</td>
+</tr>
+<tr class="default even">
+<td><button type="button" class="copy-paste-icon" aria-label="Copy feature_name_combiner to clipboard" onclick="copyToClipboard('feature_name_combiner',
+                          this.parentElement.nextElementSibling)">
+</button></td>
+<td class="param"><a href="https://scikit-learn.org/1.9/modules/generated/sklearn.preprocessing.OneHotEncoder.html#:~:text=feature_name_combiner,-%22concat%22%20or%20callable%2C%20default%3D%22concat%22" class="param-doc-link" style="anchor-name: --doc-link-feature_name_combiner;" rel="noreferrer" target="_blank">feature_name_combiner <span class="param-doc-description" style="position-anchor: --doc-link-feature_name_combiner;"> feature_name_combiner: "concat" or callable, default="concat"<br>
+<br>
+Callable with signature `def callable(input_feature, category)` that returns a<br>
+string. This is used to create feature names to be returned by<br>
+:meth:`get_feature_names_out`.<br>
+<br>
+`"concat"` concatenates encoded feature name and category with<br>
+`feature + "_" + str(category)`.E.g. feature X with values 1, 6, 7 create<br>
+feature names `X_1, X_6, X_7`.<br>
+<br>
+.. versionadded:: 1.3</span></a></td>
+<td class="value">'concat'</td>
+</tr>
+</tbody>
+</table>
+
+            </details>
+        </div>
+    </div></div></div></div></div></div></div></div><div class="sk-parallel-item"><div class="sk-item"><div class="sk-label-container"><div class="sk-label  sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually sk-global" id="sk-estimator-id-8" type="checkbox"><label for="sk-estimator-id-8" class="sk-toggleable__label  sk-toggleable__label-arrow"><div><div>onehotencoder</div></div></label><div class="sk-toggleable__content " data-param-prefix="onehotencoder__"><pre>['spotify_track_explicit']</pre></div></div></div><div class="sk-serial"><div class="sk-item"><div class="sk-estimator  sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually sk-global" id="sk-estimator-id-9" type="checkbox"><label for="sk-estimator-id-9" class="sk-toggleable__label  sk-toggleable__label-arrow"><div><div>OneHotEncoder</div></div><div><a class="sk-estimator-doc-link " rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.9/modules/generated/sklearn.preprocessing.OneHotEncoder.html">?<span>Documentation for OneHotEncoder</span></a></div></label><div class="sk-toggleable__content " data-param-prefix="onehotencoder__">
+        <div class="estimator-table">
+            <details>
+                <summary>Parameters</summary>
+                
+<table class="parameters-table caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<tbody>
+<tr class="user-set odd">
+<td><button type="button" class="copy-paste-icon" aria-label="Copy drop to clipboard" onclick="copyToClipboard('drop',
+                          this.parentElement.nextElementSibling)">
+</button></td>
+<td class="param"><a href="https://scikit-learn.org/1.9/modules/generated/sklearn.preprocessing.OneHotEncoder.html#:~:text=drop,-%7B%27first%27%2C%20%27if_binary%27%7D%20or%20an%20array-like%20of%20shape%20%28n_features%2C%29%2C%20%20%20%20%20%20%20%20%20%20%20%20%20default%3DNone" class="param-doc-link" style="anchor-name: --doc-link-drop;" rel="noreferrer" target="_blank">drop <span class="param-doc-description" style="position-anchor: --doc-link-drop;"> drop: {'first', 'if_binary'} or an array-like of shape (n_features,), default=None<br>
+<br>
+Specifies a methodology to use to drop one of the categories per<br>
+feature. This is useful in situations where perfectly collinear<br>
+features cause problems, such as when feeding the resulting data<br>
+into an unregularized linear regression model.<br>
+<br>
+However, dropping one category breaks the symmetry of the original<br>
+representation and can therefore induce a bias in downstream models,<br>
+for instance for penalized linear classification or regression models.<br>
+<br>
+- None : retain all features (the default).<br>
+- 'first' : drop the first category in each feature. If only one<br>
+category is present, the feature will be dropped entirely.<br>
+- 'if_binary' : drop the first category in each feature with two<br>
+categories. Features with 1 or more than 2 categories are<br>
+left intact.<br>
+- array : ``drop[i]`` is the category in feature ``X[:, i]`` that<br>
+should be dropped.<br>
+<br>
+When `max_categories` or `min_frequency` is configured to group<br>
+infrequent categories, the dropping behavior is handled after the<br>
+grouping.<br>
+<br>
+.. versionadded:: 0.21<br>
+The parameter `drop` was added in 0.21.<br>
+<br>
+.. versionchanged:: 0.23<br>
+The option `drop='if_binary'` was added in 0.23.<br>
+<br>
+.. versionchanged:: 1.1<br>
+Support for dropping infrequent categories.</span></a></td>
+<td class="value">'if_binary'</td>
+</tr>
+<tr class="user-set even">
+<td><button type="button" class="copy-paste-icon" aria-label="Copy sparse_output to clipboard" onclick="copyToClipboard('sparse_output',
+                          this.parentElement.nextElementSibling)">
+</button></td>
+<td class="param"><a href="https://scikit-learn.org/1.9/modules/generated/sklearn.preprocessing.OneHotEncoder.html#:~:text=sparse_output,-bool%2C%20default%3DTrue" class="param-doc-link" style="anchor-name: --doc-link-sparse_output;" rel="noreferrer" target="_blank">sparse_output <span class="param-doc-description" style="position-anchor: --doc-link-sparse_output;"> sparse_output: bool, default=True<br>
+<br>
+When ``True``, it returns a SciPy sparse matrix/array<br>
+in "Compressed Sparse Row" (CSR) format.<br>
+<br>
+.. versionadded:: 1.2<br>
+`sparse` was renamed to `sparse_output`</span></a></td>
+<td class="value">False</td>
+</tr>
+<tr class="default odd">
+<td><button type="button" class="copy-paste-icon" aria-label="Copy categories to clipboard" onclick="copyToClipboard('categories',
+                          this.parentElement.nextElementSibling)">
+</button></td>
+<td class="param"><a href="https://scikit-learn.org/1.9/modules/generated/sklearn.preprocessing.OneHotEncoder.html#:~:text=categories,-%27auto%27%20or%20a%20list%20of%20array-like%2C%20default%3D%27auto%27" class="param-doc-link" style="anchor-name: --doc-link-categories;" rel="noreferrer" target="_blank">categories <span class="param-doc-description" style="position-anchor: --doc-link-categories;"> categories: 'auto' or a list of array-like, default='auto'<br>
+<br>
+Categories (unique values) per feature:<br>
+<br>
+- 'auto' : Determine categories automatically from the training data.<br>
+- list : ``categories[i]`` holds the categories expected in the ith<br>
+column. The passed categories should not mix strings and numeric<br>
+values within a single feature, and should be sorted in case of<br>
+numeric values.<br>
+<br>
+The used categories can be found in the ``categories_`` attribute.<br>
+<br>
+.. versionadded:: 0.20</span></a></td>
+<td class="value">'auto'</td>
+</tr>
+<tr class="default even">
+<td><button type="button" class="copy-paste-icon" aria-label="Copy dtype to clipboard" onclick="copyToClipboard('dtype',
+                          this.parentElement.nextElementSibling)">
+</button></td>
+<td class="param"><a href="https://scikit-learn.org/1.9/modules/generated/sklearn.preprocessing.OneHotEncoder.html#:~:text=dtype,-number%20type%2C%20default%3Dnp.float64" class="param-doc-link" style="anchor-name: --doc-link-dtype;" rel="noreferrer" target="_blank">dtype <span class="param-doc-description" style="position-anchor: --doc-link-dtype;"> dtype: number type, default=np.float64<br>
+<br>
+Desired dtype of output.</span></a></td>
+<td class="value">&lt;class 'numpy.float64'&gt;</td>
+</tr>
+<tr class="default odd">
+<td><button type="button" class="copy-paste-icon" aria-label="Copy handle_unknown to clipboard" onclick="copyToClipboard('handle_unknown',
+                          this.parentElement.nextElementSibling)">
+</button></td>
+<td class="param"><a href="https://scikit-learn.org/1.9/modules/generated/sklearn.preprocessing.OneHotEncoder.html#:~:text=handle_unknown,-%7B%27error%27%2C%20%27ignore%27%2C%20%27infrequent_if_exist%27%2C%20%27warn%27%7D%2C%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20default%3D%27error%27" class="param-doc-link" style="anchor-name: --doc-link-handle_unknown;" rel="noreferrer" target="_blank">handle_unknown <span class="param-doc-description" style="position-anchor: --doc-link-handle_unknown;"> handle_unknown: {'error', 'ignore', 'infrequent_if_exist', 'warn'}, default='error'<br>
+<br>
+Specifies the way unknown categories are handled during :meth:`transform`.<br>
+<br>
+- 'error' : Raise an error if an unknown category is present during transform.<br>
+- 'ignore' : When an unknown category is encountered during<br>
+transform, the resulting one-hot encoded columns for this feature<br>
+will be all zeros. In the inverse transform, an unknown category<br>
+will be denoted as None.<br>
+- 'infrequent_if_exist' : When an unknown category is encountered<br>
+during transform, the resulting one-hot encoded columns for this<br>
+feature will map to the infrequent category if it exists. The<br>
+infrequent category will be mapped to the last position in the<br>
+encoding. During inverse transform, an unknown category will be<br>
+mapped to the category denoted `'infrequent'` if it exists. If the<br>
+`'infrequent'` category does not exist, then :meth:`transform` and<br>
+:meth:`inverse_transform` will handle an unknown category as with<br>
+`handle_unknown='ignore'`. Infrequent categories exist based on<br>
+`min_frequency` and `max_categories`. Read more in the<br>
+:ref:`User Guide &lt;encoder_infrequent_categories&gt;`.<br>
+- 'warn' : When an unknown category is encountered during transform<br>
+a warning is issued, and the encoding then proceeds as described for<br>
+`handle_unknown="infrequent_if_exist"`.<br>
+<br>
+.. versionchanged:: 1.1<br>
+`'infrequent_if_exist'` was added to automatically handle unknown<br>
+categories and infrequent categories.<br>
+<br>
+.. versionadded:: 1.6<br>
+The option `"warn"` was added in 1.6.</span></a></td>
+<td class="value">'error'</td>
+</tr>
+<tr class="default even">
+<td><button type="button" class="copy-paste-icon" aria-label="Copy min_frequency to clipboard" onclick="copyToClipboard('min_frequency',
+                          this.parentElement.nextElementSibling)">
+</button></td>
+<td class="param"><a href="https://scikit-learn.org/1.9/modules/generated/sklearn.preprocessing.OneHotEncoder.html#:~:text=min_frequency,-int%20or%20float%2C%20default%3DNone" class="param-doc-link" style="anchor-name: --doc-link-min_frequency;" rel="noreferrer" target="_blank">min_frequency <span class="param-doc-description" style="position-anchor: --doc-link-min_frequency;"> min_frequency: int or float, default=None<br>
+<br>
+Specifies the minimum frequency below which a category will be<br>
+considered infrequent.<br>
+<br>
+- If `int`, categories with a smaller cardinality will be considered<br>
+infrequent.<br>
+<br>
+- If `float`, categories with a smaller cardinality than<br>
+`min_frequency * n_samples` will be considered infrequent.<br>
+<br>
+.. versionadded:: 1.1<br>
+Read more in the :ref:`User Guide &lt;encoder_infrequent_categories&gt;`.</span></a></td>
+<td class="value">None</td>
+</tr>
+<tr class="default odd">
+<td><button type="button" class="copy-paste-icon" aria-label="Copy max_categories to clipboard" onclick="copyToClipboard('max_categories',
+                          this.parentElement.nextElementSibling)">
+</button></td>
+<td class="param"><a href="https://scikit-learn.org/1.9/modules/generated/sklearn.preprocessing.OneHotEncoder.html#:~:text=max_categories,-int%2C%20default%3DNone" class="param-doc-link" style="anchor-name: --doc-link-max_categories;" rel="noreferrer" target="_blank">max_categories <span class="param-doc-description" style="position-anchor: --doc-link-max_categories;"> max_categories: int, default=None<br>
+<br>
+Specifies an upper limit to the number of output features for each input<br>
+feature when considering infrequent categories. If there are infrequent<br>
+categories, `max_categories` includes the category representing the<br>
+infrequent categories along with the frequent categories. If `None`,<br>
+there is no limit to the number of output features.<br>
+<br>
+.. versionadded:: 1.1<br>
+Read more in the :ref:`User Guide &lt;encoder_infrequent_categories&gt;`.</span></a></td>
+<td class="value">None</td>
+</tr>
+<tr class="default even">
+<td><button type="button" class="copy-paste-icon" aria-label="Copy feature_name_combiner to clipboard" onclick="copyToClipboard('feature_name_combiner',
+                          this.parentElement.nextElementSibling)">
+</button></td>
+<td class="param"><a href="https://scikit-learn.org/1.9/modules/generated/sklearn.preprocessing.OneHotEncoder.html#:~:text=feature_name_combiner,-%22concat%22%20or%20callable%2C%20default%3D%22concat%22" class="param-doc-link" style="anchor-name: --doc-link-feature_name_combiner;" rel="noreferrer" target="_blank">feature_name_combiner <span class="param-doc-description" style="position-anchor: --doc-link-feature_name_combiner;"> feature_name_combiner: "concat" or callable, default="concat"<br>
+<br>
+Callable with signature `def callable(input_feature, category)` that returns a<br>
+string. This is used to create feature names to be returned by<br>
+:meth:`get_feature_names_out`.<br>
+<br>
+`"concat"` concatenates encoded feature name and category with<br>
+`feature + "_" + str(category)`.E.g. feature X with values 1, 6, 7 create<br>
+feature names `X_1, X_6, X_7`.<br>
+<br>
+.. versionadded:: 1.3</span></a></td>
+<td class="value">'concat'</td>
+</tr>
+</tbody>
+</table>
+
+            </details>
+        </div>
+    </div></div></div></div></div></div></div></div></div></div><script>/*  Authors: The scikit-learn developers
+ SPDX-License-Identifier: BSD-3-Clause
+*/
+
+function copyToClipboard(text, element) {
+    // Get the parameter prefix from the closest toggleable content
+    const toggleableContent = element.closest('.sk-toggleable__content');
+    const paramPrefix = toggleableContent ? toggleableContent.dataset.paramPrefix : '';
+    const fullParamName = paramPrefix ? `${paramPrefix}${text}` : text;
+
+    const originalStyle = element.style;
+    const computedStyle = window.getComputedStyle(element);
+    const originalWidth = computedStyle.width;
+    const originalHTML = element.innerHTML.replace('Copied!', '');
+
+    navigator.clipboard.writeText(fullParamName)
+        .then(() => {
+            element.style.width = originalWidth;
+            element.style.color = 'green';
+            element.innerHTML = "Copied!";
+
+            setTimeout(() => {
+                element.innerHTML = originalHTML;
+                element.style = originalStyle;
+            }, 2000);
+        })
+        .catch(err => {
+            console.error('Failed to copy:', err);
+            element.style.color = 'red';
+            element.innerHTML = "Failed!";
+            setTimeout(() => {
+                element.innerHTML = originalHTML;
+                element.style = originalStyle;
+            }, 2000);
+        });
+    return false;
+}
+
+document.querySelectorAll('.copy-paste-icon').forEach(function(element) {
+    const toggleableContent = element.closest('.sk-toggleable__content');
+    const paramPrefix = toggleableContent ? toggleableContent.dataset.paramPrefix : '';
+
+    const parent = element.parentElement;
+    if (!parent || !parent.nextElementSibling) {
+        console.warn('Expected copy-paste icon is missing from the DOM structure');
+        return;
+    }
+
+    const paramName = element.parentElement.nextElementSibling
+        .textContent.trim().split(' ')[0];
+    const fullParamName = paramPrefix ? `${paramPrefix}${paramName}` : paramName;
+
+    element.setAttribute('title', fullParamName);
+});
+
+/**
+ * Copy the list of feature names formatted as a Python list.
+ *
+ * @param {HTMLElement} element - The copy button inside a `.features` block; its siblings
+ *   contain a `details` element and a table containing feature named.
+ * @returns {boolean} Always returns `false` so callers can prevent the default click behavior.
+ */
+function copyFeatureNamesToClipboard(element) {
+    var detailsElem = element.closest('.features').querySelector('details');
+    var wasOpen = detailsElem.open;
+    detailsElem.open = true;
+    var content = element.closest('.features').querySelector('tbody')
+                  .innerText.trim();
+    if (!wasOpen) detailsElem.open = false;
+    const rows = content.split('\n').map(row => `    "${row}"`);
+    const formattedText = `[\n${rows.join(',\n')},\n]`;
+    const originalHTML = element.innerHTML.replace('✔', '');
+    const originalStyle = element.style;
+    const copyMark = document.createElement('span');
+    copyMark.innerHTML = '✔';
+    copyMark.style.color = 'blue';
+    copyMark.style.fontSize = '1em';
+
+    navigator.clipboard.writeText(formattedText)
+        .then(() => {
+            element.style.display = 'none';
+            element.parentElement.appendChild(copyMark);
+
+            setTimeout(() => {
+                copyMark.remove();
+                element.innerHTML = originalHTML;
+                element.style = originalStyle;
+            }, 1000);
+        })
+        .catch(err => {
+            console.error('Failed to copy:', err);
+            element.style.color = 'orange';
+            element.innerHTML = "Failed!";
+            setTimeout(() => {
+                element.innerHTML = originalHTML;
+                element.style = originalStyle;
+            }, 1000);
+        });
+    return false;
+}
+/**
+ * Adapted from Skrub
+ * https://github.com/skrub-data/skrub/blob/403466d1d5d4dc76a7ef569b3f8228db59a31dc3/skrub/_reporting/_data/templates/report.js#L789
+ * @returns "light" or "dark"
+ */
+function detectTheme(element) {
+    const body = document.querySelector('body');
+
+    // Check VSCode theme
+    const themeKindAttr = body.getAttribute('data-vscode-theme-kind');
+    const themeNameAttr = body.getAttribute('data-vscode-theme-name');
+
+    if (themeKindAttr && themeNameAttr) {
+        const themeKind = themeKindAttr.toLowerCase();
+        const themeName = themeNameAttr.toLowerCase();
+
+        if (themeKind.includes("dark") || themeName.includes("dark")) {
+            return "dark";
+        }
+        if (themeKind.includes("light") || themeName.includes("light")) {
+            return "light";
+        }
+    }
+
+    // Check Jupyter theme
+    if (body.getAttribute('data-jp-theme-light') === 'false') {
+        return 'dark';
+    } else if (body.getAttribute('data-jp-theme-light') === 'true') {
+        return 'light';
+    }
+
+    // Guess based on a parent element's color
+    const color = window.getComputedStyle(element.parentNode, null).getPropertyValue('color');
+    const match = color.match(/^rgb\s*\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*\)\s*$/i);
+    if (match) {
+        const [r, g, b] = [
+            parseFloat(match[1]),
+            parseFloat(match[2]),
+            parseFloat(match[3])
+        ];
+
+        // https://en.wikipedia.org/wiki/HSL_and_HSV#Lightness
+        const luma = 0.299 * r + 0.587 * g + 0.114 * b;
+
+        if (luma > 180) {
+            // If the text is very bright we have a dark theme
+            return 'dark';
+        }
+        if (luma < 75) {
+            // If the text is very dark we have a light theme
+            return 'light';
+        }
+        // Otherwise fall back to the next heuristic.
+    }
+
+    // Fallback to system preference
+    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+}
+
+
+function forceTheme(elementId) {
+    const estimatorElement = document.querySelector(`#${elementId}`);
+    if (estimatorElement === null) {
+        console.error(`Element with id ${elementId} not found.`);
+    } else {
+        const theme = detectTheme(estimatorElement);
+        estimatorElement.classList.add(theme);
+    }
+}
+
+forceTheme('sk-container-id-1');</script>
+</div>
+</div>
+<p>The code above was reviewed and designed by Claude.</p>
 </section>
-<section id="discussion" class="level3">
-<h3 class="anchored" data-anchor-id="discussion">Discussion</h3>
-<p><em>To be added.</em></p>
-</section>
-</section>
-<section id="references" class="level2">
-<h2 class="anchored" data-anchor-id="references">References</h2>
-<p><em>To be added.</em></p>
 </section>
 
 </main>
