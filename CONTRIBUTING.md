@@ -1,0 +1,71 @@
+# Contributing Guidelines
+
+Thank you for your interest in contributing to Group 25's DSCI 522 project, Predicting Billboard Hot 100 Top 10 Songs Using Audio Features and Metadata.
+
+We welcome suggestions, bug reports, and contributions that improve the project's code, analysis, documentation, and reproducibility.
+
+Before contributing, please review our Code of Conduct.
+
+## Reporting Bugs
+
+If you encounter a bug or an issue with the project:
+
+1.  Check the repository's existing GitHub issues to avoid duplicates.
+
+2.  Open a new issue in the GitHub Issues page.
+
+3.  Provide a clear description of the problem, steps to reproduce it, the expected and actual behavior, and any relevant error messages.
+
+## Suggesting Changes
+
+We welcome suggestions for improvements to the analysis, code, visualizations, and documentation.
+
+To suggest a change:
+
+1.  Check existing issues for similar suggestions.
+
+2.  Open a new GitHub issue describing your proposed improvement.
+
+3.  Explain why the change would benefit the project.
+
+## Submitting Contributions
+
+To contribute code, analysis, or documentation:
+
+1.  Fork the repository and clone your fork to your computer.
+
+2.  Create a new branch for your changes.
+
+3.  Make your changes, following the project's existing structure and conventions.
+
+4.  Test your changes and ensure that the analysis remains reproducible.
+
+5.  Commit your changes with a clear, descriptive message.
+
+6.  Push your branch to your fork and open a pull request against the repository's main branch.
+
+7.  Describe your changes in the pull request and reference any related GitHub issues.
+
+All pull requests must be reviewed by a Group 25 member before merging. Contributors may be asked to revise their work before it is accepted.
+
+## Generative AI Policy
+
+Contributors may use generative AI tools, such as ChatGPT, GitHub Copilot, or Claude, to assist with coding, debugging, documentation, and brainstorming.
+
+However, contributors must follow these guidelines:
+
+**Permitted use**: AI tools may assist with generating ideas, explaining concepts, generating code, or improving documentation.
+
+**Disclosure**: Contributors must disclose meaningful AI assistance in their pull requests, including the tool used and how it contributed to the work.
+
+**Verification**: All AI-assisted content must be reviewed, tested where applicable, and checked for accuracy, originality, and compliance with project requirements.
+
+**Responsibility**: Human contributors remain fully responsible for all submitted work, including any errors, inappropriate content, or licensing concerns.
+
+**Human oversight**: GitHub issues and pull requests must be opened, reviewed, and merged by human contributors, not autonomous AI agents.
+
+Contributions that do not follow these guidelines may be requested for revision or rejected.
+
+## Questions
+
+For questions about contributing, please open an issue in the project repository.
