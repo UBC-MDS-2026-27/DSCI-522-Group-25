@@ -10,29 +10,29 @@ We value diversity in backgrounds, identities, experiences, and perspectives. Al
 
 All contributors are expected to:
 
--  Communicate respectfully and professionally.
+- Communicate respectfully and professionally.
 
--  Welcome different perspectives and provide constructive feedback.
+- Welcome different perspectives and provide constructive feedback.
 
--  Collaborate fairly and acknowledge others' contributions.
+- Collaborate fairly and acknowledge others' contributions.
 
--  Respect personal boundaries and maintain an inclusive environment.
+- Respect personal boundaries and maintain an inclusive environment.
 
--  Resolve disagreements respectfully and accept constructive criticism.
+- Resolve disagreements respectfully and accept constructive criticism.
 
 ## Unacceptable Behavior
 
 The following behaviors are not tolerated:
 
--  Harassment, discrimination, bullying, or intimidation.
+- Harassment, discrimination, bullying, or intimidation.
 
--  Offensive comments, personal attacks, or inappropriate language directed at others.
+- Offensive comments, personal attacks, or inappropriate language directed at others.
 
--  Unwelcome sexual attention or inappropriate conduct.
+- Unwelcome sexual attention or inappropriate conduct.
 
--  Sharing someone's private information without permission.
+- Sharing someone's private information without permission.
 
--  Deliberately disrupting project activities or discussions.
+- Deliberately disrupting project activities or discussions.
 
 ## Scope
 
@@ -42,7 +42,7 @@ This Code of Conduct applies to all project-related interactions, including GitH
 
 Anyone who experiences or witnesses a violation should report it privately to a Group 25 member through Slack.
 
-Reports will be handled promptly, fairly, and as confidentially as reasonably possible. If a report involves a member, contributors may contact another uninvolved member or the DSCI 522 teaching team.
+Reports will be handled promptly, fairly, and as confidentially as reasonably possible. If a report involves a member, contributors may contact another non involved member or the DSCI 522 teaching team.
 
 Sensitive incidents should not be reported through public GitHub issues. Retaliation against individuals who report concerns in good faith is prohibited.
 
