@@ -76,7 +76,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="report_files/libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="report_files/libs/bootstrap/bootstrap.min.js"></script>
 <link href="report_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="report_files/libs/bootstrap/bootstrap-215b371544c282197b31c8aa00ce3677.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="report_files/libs/bootstrap/bootstrap-917079515d91bccb85b543faf8aa8bb6.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script src="https://cdn.jsdelivr.net/npm/requirejs@2.3.6/require.min.js" integrity="sha384-c9c+LnTbwQ3aujuU7ULEPVvgLs+Fn6fJUvIGTsuu1ZcCf11fiEubah0ttpca4ntM sha384-6V1/AdqZRWk1KAlWbKBlGhN7VG4iE/yAZcO6NZPMF8od0vukrvr0tg4qY6NSrItx" crossorigin="anonymous"></script>
 
 <script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
@@ -124,7 +124,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Report Test</p>
 <section id="imports" class="level2">
 <h2 class="anchored" data-anchor-id="imports">imports</h2>
-<div id="b1fde47f" class="cell" data-execution_count="1">
+<div id="85b5c022" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> kagglehub</span>
@@ -142,7 +142,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="data-download" class="level2">
 <h2 class="anchored" data-anchor-id="data-download">Data Download</h2>
-<div id="d588268d" class="cell" data-execution_count="2">
+<div id="54b5a92d" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>dataset <span class="op">=</span> <span class="st">"thedevastator/billboard-hot-100-audio-features"</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>files <span class="op">=</span> [<span class="st">"Hot Stuff.csv"</span>, <span class="st">"Hot 100 Audio Features.csv"</span>]</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -160,11 +160,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="drop-unsed-data-and-process-data" class="level2">
 <h2 class="anchored" data-anchor-id="drop-unsed-data-and-process-data">Drop unsed data and process data</h2>
-<div id="e92659aa" class="cell" data-execution_count="3">
+<div id="cdcce065" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>df1 <span class="op">=</span> df1.drop(columns<span class="op">=</span>[<span class="st">"url"</span>, <span class="st">"SongID"</span>])</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>df2 <span class="op">=</span> df2.drop(columns<span class="op">=</span>[<span class="st">"SongID"</span>, <span class="st">"spotify_track_id"</span>, <span class="st">"spotify_track_preview_url"</span>, <span class="st">"spotify_track_album"</span>, <span class="st">"mode"</span>,])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="70888327" class="cell" data-execution_count="4">
+<div id="33d3c81d" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>df_final <span class="op">=</span> pd.merge(</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    df1,</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    df2,</span>
@@ -176,7 +176,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="write-df_final-to-a-cleaned-dataset" class="level2">
 <h2 class="anchored" data-anchor-id="write-df_final-to-a-cleaned-dataset">write df_final to a cleaned dataset</h2>
-<div id="c4eb6c0a" class="cell" data-execution_count="5">
+<div id="d5dde459" class="cell" data-execution_count="5">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co">#drop unused columns in df_final </span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>df_final.info()</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>df_final <span class="op">=</span> df_final.drop(columns<span class="op">=</span>[<span class="st">"index_x"</span>, <span class="st">"Instance"</span>, <span class="st">"index_y"</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -215,7 +215,7 @@ dtypes: float64(14), int64(6), object(1), str(4)
 memory usage: 63.0+ MB</code></pre>
 </div>
 </div>
-<div id="9cc55bec" class="cell" data-execution_count="6">
+<div id="769776f9" class="cell" data-execution_count="6">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>df_final <span class="op">=</span> (</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    df_final[df_final[<span class="st">"Week Position"</span>] <span class="op">==</span> df_final[<span class="st">"Peak Position"</span>]]</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    .sort_values(<span class="st">"WeekID"</span>)</span>
@@ -242,7 +242,7 @@ Index: []</code></pre>
 </div>
 <section id="the-genre-column-has-multiple-different-genres-associates-with-each-song.-ex-dance-pop-pop-post-teen-pop-we-want-to-change-this-just-a-single-string" class="level3">
 <h3 class="anchored" data-anchor-id="the-genre-column-has-multiple-different-genres-associates-with-each-song.-ex-dance-pop-pop-post-teen-pop-we-want-to-change-this-just-a-single-string">the genre column has multiple different genres associates with each song. ex [‘dance pop’, ‘pop’, ‘post-teen pop’], we want to change this just a single string</h3>
-<div id="5f689fcf" class="cell" data-execution_count="7">
+<div id="8c70023b" class="cell" data-execution_count="7">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> first_genre(val):</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>    <span class="co"># if the column is empty/null/none, it returns NaN</span></span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> pd.isna(val):</span>
@@ -269,13 +269,13 @@ Index: []</code></pre>
 </div>
 <p>The code above (the first_genre function) was reviewed and designed by Claude. Anthropic. (2026). Claude (Opus 5.5 version) [Large language model]. https://claude.ai</p>
 <p>drop unused columns</p>
-<div id="8b3145d3" class="cell" data-execution_count="8">
+<div id="cef4dcd8" class="cell" data-execution_count="8">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>df_final <span class="op">=</span> df_final.drop(columns<span class="op">=</span>[<span class="st">"Previous Week Position"</span>, <span class="st">"spotify_genre"</span>])</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="co">## drop the null rows</span></span>
 <span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>df_final <span class="op">=</span> df_final.dropna()</span>
 <span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>df_final</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-display" data-execution_count="48">
+<div class="cell-output cell-output-display" data-execution_count="8">
 <div>
 
 
@@ -579,17 +579,82 @@ Index: []</code></pre>
 </div>
 </div>
 <p>save df_final to a csv</p>
-<div id="c37c225d" class="cell" data-execution_count="9">
+<div id="f8d98282" class="cell" data-execution_count="9">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>df_final.to_csv(<span class="st">"../data/processed/df_final_cleaned.csv"</span>, index<span class="op">=</span><span class="va">False</span>)</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>df_final[<span class="st">"top_10"</span>] <span class="op">=</span> (df_final[<span class="st">"Peak Position"</span>] <span class="op">&lt;=</span> <span class="dv">10</span>).astype(<span class="bu">int</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>##Split into train test split</p>
-<div id="5c9ead4f" class="cell" data-execution_count="10">
+<div id="7e514c72" class="cell" data-execution_count="10">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>train_df, test_df <span class="op">=</span> train_test_split(df_final, test_size <span class="op">=</span> <span class="fl">0.3</span>, random_state<span class="op">=</span> <span class="dv">552</span>)</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>train_df.to_csv(<span class="st">"../data/processed/df_final_train.csv"</span>, index<span class="op">=</span><span class="va">False</span>)</span>
 <span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>test_df.to_csv(<span class="st">"../data/processed/df_final_test.csv"</span>, index<span class="op">=</span><span class="va">False</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+</section>
+<section id="start-of-eda" class="level2">
+<h2 class="anchored" data-anchor-id="start-of-eda">Start of EDA</h2>
+<section id="table-1-summary-of-audio-features-by-top-10-status" class="level3">
+<h3 class="anchored" data-anchor-id="table-1-summary-of-audio-features-by-top-10-status">Table 1: Summary of audio features by Top 10 status</h3>
+<div id="583b6fcb" class="cell" data-execution_count="11">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Table 1: average audio feature values for Top 10 vs. non-Top 10 songs</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="co"># (training data only)</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>table_1 <span class="op">=</span> (</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>    train_df</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>    .groupby(<span class="st">"top_10"</span>)[[<span class="st">"danceability"</span>, <span class="st">"energy"</span>, <span class="st">"valence"</span>, <span class="st">"loudness"</span>, <span class="st">"tempo"</span>]]</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>    .mean()</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>    .<span class="bu">round</span>(<span class="dv">2</span>)</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a><span class="co"># add number of songs in each group</span></span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>table_1.insert(<span class="dv">0</span>, <span class="st">"Number of songs"</span>, train_df[<span class="st">"top_10"</span>].value_counts().sort_index())</span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a><span class="co"># readable labels</span></span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>table_1.index <span class="op">=</span> [<span class="st">"Not Top 10"</span>, <span class="st">"Top 10"</span>]</span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>table_1.columns <span class="op">=</span> [<span class="st">"Number of songs"</span>, <span class="st">"Danceability"</span>, <span class="st">"Energy"</span>, <span class="st">"Valence"</span>,</span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>                   <span class="st">"Loudness (dB)"</span>, <span class="st">"Tempo (BPM)"</span>]</span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>table_1</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="11">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">Number of songs</th>
+<th data-quarto-table-cell-role="th">Danceability</th>
+<th data-quarto-table-cell-role="th">Energy</th>
+<th data-quarto-table-cell-role="th">Valence</th>
+<th data-quarto-table-cell-role="th">Loudness (dB)</th>
+<th data-quarto-table-cell-role="th">Tempo (BPM)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">Not Top 10</th>
+<td>14770</td>
+<td>0.60</td>
+<td>0.62</td>
+<td>0.60</td>
+<td>-8.64</td>
+<td>120.30</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">Top 10</th>
+<td>2081</td>
+<td>0.62</td>
+<td>0.62</td>
+<td>0.63</td>
+<td>-8.69</td>
+<td>119.48</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
 </div>
 </section>
 </section>

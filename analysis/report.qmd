@@ -156,3 +156,26 @@ train_df.to_csv("../data/processed/df_final_train.csv", index=False)
 test_df.to_csv("../data/processed/df_final_test.csv", index=False)
 ```
 
+
+## Start of EDA
+### Table 1: Summary of audio features by Top 10 status
+
+```{python}
+# Table 1: average audio feature values for Top 10 vs. non-Top 10 songs
+# (training data only)
+table_1 = (
+    train_df
+    .groupby("top_10")[["danceability", "energy", "valence", "loudness", "tempo"]]
+    .mean()
+    .round(2)
+)
+
+# add number of songs in each group
+table_1.insert(0, "Number of songs", train_df["top_10"].value_counts().sort_index())
+
+# readable labels
+table_1.index = ["Not Top 10", "Top 10"]
+table_1.columns = ["Number of songs", "Danceability", "Energy", "Valence",
+                   "Loudness (dB)", "Tempo (BPM)"]
+table_1
+```
