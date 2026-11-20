@@ -29,6 +29,8 @@ from pathlib import Path
 from sklearn.compose import make_column_transformer
 from sklearn.pipeline import make_pipeline
 from sklearn.impute import SimpleImputer
+from sklearn.dummy import DummyClassifier
+from sklearn.model_selection import cross_validate
 ```
 
 
@@ -297,3 +299,15 @@ preprocessor
 
 The code above was reviewed and designed by Claude. Anthropic. (2026). Claude (Opus 5.5 version) [Large language model]. https://claude.ai
 
+## create the baseline dummy classifier
+```{python}
+#| warning: false
+dummy_pipe = make_pipeline(preprocessor, DummyClassifier(strategy="most_frequent"))
+
+scoring = ["accuracy", "precision", "recall", "f1"]
+cv_dummy = cross_validate(dummy_pipe, X_train, y_train, cv=5,
+                          scoring=scoring, return_train_score=True)
+
+results = {"Dummy (most frequent)": pd.DataFrame(cv_dummy).mean()}
+pd.DataFrame(results).T 
+```
