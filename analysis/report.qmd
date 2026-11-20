@@ -14,6 +14,7 @@ date: "2026-11-18"
 import pandas as pd
 import numpy as np
 import altair as alt
+alt.data_transformers.disable_max_rows()
 import kagglehub
 from kagglehub import KaggleDatasetAdapter
 import zipfile
@@ -158,7 +159,7 @@ test_df.to_csv("../data/processed/df_final_test.csv", index=False)
 ```
 
 
-## Start of EDA
+## EDA
 ### Table 1: Summary of audio features by Top 10 status
 
 ```{python}
@@ -181,8 +182,6 @@ table_1.columns = ["Number of songs", "Danceability", "Energy", "Valence",
 table_1
 ```
 
-The code above (Table 1 summary) was reviewed and designed with help from Claude. Anthropic. (2026). Claude (Opus 5.5 version) [Large language model]. https://claude.ai
-
 ### Figure 1: Class balance of Top 10 vs. non-Top 10 songs
 
 ```{python}
@@ -203,6 +202,32 @@ alt.Chart(class_counts).mark_bar().encode(
 ).properties(
     width=300,
     height=300,
-    title="Number of songs that reached the Top 10 (training data)"
+    title="Number of songs by top 10 status (training data)"
 )
 ```
+
+### Figure 2: Danceability of Top 10 vs. non-Top 10 songs
+
+```{python}
+# Figure 2: distribution of danceability by Top 10 status
+# (training data only)
+plot_df = train_df.assign(
+    top_10_label=train_df["top_10"].map({0: "Not Top 10", 1: "Top 10"})
+)[["danceability", "top_10_label"]]
+
+alt.Chart(plot_df).transform_density(
+    "danceability",
+    groupby=["top_10_label"],
+    as_=["danceability", "density"]
+).mark_area(opacity=0.5).encode(
+    x=alt.X("danceability:Q", title="Danceability (0 = least, 1 = most danceable)"),
+    y=alt.Y("density:Q", title="Density", stack=None),
+    color=alt.Color("top_10_label:N", title="Top 10 status")
+).properties(
+    width=400,
+    height=300,
+    title="Distribution of danceability by Top 10 status (training data)"
+)
+```
+
+The code above (Table 1 Summary, Figures 1 and 2) was reviewed and designed with help from Claude. Anthropic. (2026). Claude (Opus 5.5 version) [Large language model]. https://claude.ai
