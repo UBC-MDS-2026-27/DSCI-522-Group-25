@@ -1,7 +1,5 @@
 ------------------------------------------------------------------------
 
-editor_options: markdown: wrap: sentence ---
-
 # DSCI-522-Group-25
 
 ## Predicting Billboard Top 100 top 10 Songs Using Audio Features and Metadata
@@ -34,7 +32,9 @@ The two files are merged using song titles and performers as matching identifier
 
 The data is downloaded programmatically using the Python kagglehub package. Original data files are stored in data/raw/, while cleaned and processed data is stored in data/processed/.
 
-Dataset Source: [Billboard Hot 100 Audio Features](https://www.kaggle.com/datasets/thedevastator/billboard-hot-100-audio-features), published by `thedevastator` on Kaggle. Dataset license: Data files © Original Authors
+Dataset Source: [Billboard Hot 100 Audio Features](https://www.kaggle.com/datasets/thedevastator/billboard-hot-100-audio-features), published by `thedevastator` on Kaggle.
+
+Dataset license: Data files © Original Authors
 
 ### Running the Analysis
 
@@ -131,9 +131,10 @@ Code: MIT License
 
 Report: Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)
 
+The original Kaggle dataset: Data files © Original Authors
+
 For the complete license terms, see LICENSE.md.
 
-The original Kaggle dataset is subject to its own licensing terms.
 
 ### Generative AI Usage
 
