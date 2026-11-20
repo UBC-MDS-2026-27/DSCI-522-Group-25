@@ -10,29 +10,29 @@ We value diversity in backgrounds, identities, experiences, and perspectives. Al
 
 All contributors are expected to:
 
-1.  Communicate respectfully and professionally.
+-  Communicate respectfully and professionally.
 
-2.  Welcome different perspectives and provide constructive feedback.
+-  Welcome different perspectives and provide constructive feedback.
 
-3.  Collaborate fairly and acknowledge others' contributions.
+-  Collaborate fairly and acknowledge others' contributions.
 
-4.  Respect personal boundaries and maintain an inclusive environment.
+-  Respect personal boundaries and maintain an inclusive environment.
 
-5.  Resolve disagreements respectfully and accept constructive criticism.
+-  Resolve disagreements respectfully and accept constructive criticism.
 
 ## Unacceptable Behavior
 
 The following behaviors are not tolerated:
 
-1.  Harassment, discrimination, bullying, or intimidation.
+-  Harassment, discrimination, bullying, or intimidation.
 
-2.  Offensive comments, personal attacks, or inappropriate language directed at others.
+-  Offensive comments, personal attacks, or inappropriate language directed at others.
 
-3.  Unwelcome sexual attention or inappropriate conduct.
+-  Unwelcome sexual attention or inappropriate conduct.
 
-4.  Sharing someone's private information without permission.
+-  Sharing someone's private information without permission.
 
-5.  Deliberately disrupting project activities or discussions.
+-  Deliberately disrupting project activities or discussions.
 
 ## Scope
 
@@ -52,15 +52,15 @@ Group 25 members will review reported incidents, consider the available evidence
 
 Consequences may include:
 
-1.  A private or formal warning.
+- A private or formal warning.
 
-2.  Temporary restrictions on project participation.
+- Temporary restrictions on project participation.
 
-3.  Removal of repository access or project participation, where authorized.
+- Removal of repository access or project participation, where authorized.
 
-4.  Escalation to the DSCI 522 teaching team or appropriate university authorities for serious or repeated violations.
+- Escalation to the DSCI 522 teaching team or appropriate university authorities for serious or repeated violations.
 
-5.  Members will aim to enforce these standards consistently and fairly.
+- Members will aim to enforce these standards consistently and fairly.
 
 ## Attribution and License
 
