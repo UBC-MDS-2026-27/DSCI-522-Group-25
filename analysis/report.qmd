@@ -1,18 +1,26 @@
-Report Test 
+
 
 ---
-title: "Can a song’s audio features, genre and release era predict whether a Billboard Hot 100 song reaches the Top 10?"
-author: "Team-25"
+title: "Predicting Top 10 Billboard Hits Using Audio Features and Metadata"
+authors: "Nitpreet Bamra, Eshadhi Bogoda, Jack Liu, James Wang"
 date: "2026-11-18"
+format:
+  html:
+    include-in-header:
+      text: |
+        <style>
+          #title-block-header, .quarto-title { text-align: center; }
+          .quarto-title-meta { justify-content: center; }
+        </style>
 ---
-
-## imports 
 
 
 ```{python}
 #| warning: false
 import pandas as pd
 import numpy as np
+import altair as alt
+alt.data_transformers.disable_max_rows()
 import kagglehub
 from kagglehub import KaggleDatasetAdapter
 import zipfile
@@ -26,10 +34,21 @@ from sklearn.metrics import (confusion_matrix, ConfusionMatrixDisplay, classific
 from pathlib import Path
 ```
 
+## Summary
+_To be added._
 
-## Data Download
+## Introduction
+
+_To be added._
+
+## Methods
+
+### Data
+
+_To be added: describe the data set and how it was downloaded._
 
 ```{python}
+## Data Download
 dataset = "thedevastator/billboard-hot-100-audio-features"
 files = ["Hot Stuff.csv", "Hot 100 Audio Features.csv"]
 
@@ -49,7 +68,7 @@ The code above was reviewed and designed by Claude. Anthropic. (2026). Claude (O
 
 
 
-## Drop unsed data and process data
+### Drop unsed data and process data
 
 ```{python}
 df1 = df1.drop(columns=["url", "SongID"])
@@ -67,7 +86,7 @@ df_final = pd.merge(
 
 ```
 
-## write df_final to a cleaned dataset
+### write df_final to a cleaned dataset
 ```{python}
 
 #drop unused columns in df_final 
@@ -156,3 +175,119 @@ train_df.to_csv("../data/processed/df_final_train.csv", index=False)
 test_df.to_csv("../data/processed/df_final_test.csv", index=False)
 ```
 
+## Analysis 
+
+_To be added: model, preprocessing and metric._
+
+## Results & Discussions 
+
+### Exploratory data analysis
+
+```{python}
+# Table 1: average audio feature values for Top 10 vs. non-Top 10 songs
+# (training data only)
+table_1 = (
+    train_df
+    .groupby("top_10")[["danceability", "energy", "valence", "loudness", "tempo"]]
+    .mean()
+    .round(2)
+)
+
+# add number of songs in each group
+table_1.insert(0, "Number of songs", train_df["top_10"].value_counts().sort_index())
+
+# readable labels
+table_1.index = ["Not Top 10", "Top 10"]
+table_1.columns = ["Number of songs", "Danceability", "Energy", "Valence",
+                   "Loudness (dB)", "Tempo (BPM)"]
+table_1
+
+```
+*Table 1: Summary of audio features by Top 10 status*
+
+Table 1 summarizes the average values of five audio features for songs that did and did not reach the Top 10 in the training data. We selected these five features (danceability, energy, valence, loudness and tempo) because they are commonly used to describe a song’s overall sound. The differences between the two groups are quite small. Top 10 songs are slightly more danceable (0.62 vs. 0.60) and have slightly higher valence (0.63 vs. 0.60), while energy, loudness and tempo are nearly identical. This tells us that no single audio feature strongly separates Top 10 songs from other songs.
+
+
+```{python}
+# Figure 1: number of songs that did and did not reach the Top 10
+# (training data only)
+class_counts = (
+    train_df["top_10"]
+    .map({0: "Not Top 10", 1: "Top 10"})
+    .value_counts()
+    .reset_index()
+)
+class_counts.columns = ["Top 10 status", "Number of songs"]
+
+alt.Chart(class_counts).mark_bar().encode(
+    x=alt.X("Top 10 status", title="Top 10 status", axis=alt.Axis(labelAngle=0)),
+    y=alt.Y("Number of songs", title="Number of songs"),
+    color=alt.Color("Top 10 status", legend=None)
+).properties(
+    width=300,
+    height=300,
+    title="Number of songs by top 10 status (training data)"
+).configure_axis(
+    labelFontSize=13,
+    titleFontSize=14
+).configure_title(
+    fontSize=16
+).configure_legend(
+    labelFontSize=13,
+    titleFontSize=14
+)
+```
+*Figure 1: Class balance of Top 10 vs. non-Top 10 songs*
+
+Figure 1 shows the number of songs in each class. We used a bar chart because it makes it easy to compare the counts of the two categories. The classes are highly imbalanced: only 2,081 songs (about 12%) reached the Top 10, compared to 14,770 songs that did not. Due to the imbalance, using only accuracy would be misleading since a model that always predicted “Not Top 10” would still be about 88% accurate.Instead we should use metrics such as recall and F1 score, which better reflect how well the model identifies Top 10 songs.
+
+
+```{python}
+# Figure 2: distribution of danceability by Top 10 status
+# (training data only)
+plot_df = train_df.assign(
+    top_10_label=train_df["top_10"].map({0: "Not Top 10", 1: "Top 10"})
+)[["danceability", "top_10_label"]]
+
+alt.Chart(plot_df).transform_density(
+    "danceability",
+    groupby=["top_10_label"],
+    as_=["danceability", "density"]
+).mark_area(opacity=0.5).encode(
+    x=alt.X("danceability:Q", title="Danceability (0 = least, 1 = most danceable)"),
+    y=alt.Y("density:Q", title="Density", stack=None),
+    color=alt.Color("top_10_label:N", title="Top 10 status")
+).properties(
+    width=400,
+    height=300,
+    title="Distribution of danceability by Top 10 status (training data)"
+).configure_axis(
+    labelFontSize=13,
+    titleFontSize=14
+).configure_title(
+    fontSize=16
+).configure_legend(
+    labelFontSize=13,
+    titleFontSize=14
+)
+```
+*Figure 2: Danceability of Top 10 vs. non-Top 10 songs*
+
+Figure 2 shows the distribution of danceability for Top 10 and non-Top 10 songs. The Top 10 distribution is shifted slightly to the right, meaning Top 10 songs tend to be a little more danceable. However, the significant overlap suggests that danceability is not enough to predict Top 10 status. This is consistent with the small differences seen in Table 1.
+
+Overall, the EDA suggests that no single audio feature strongly distinguishes Top 10 songs from other songs. Therefore, we should use all the audio features (danceability, energy, valence, loudness, tempo, acousticness, speechiness, instrumentalness, liveness, duration and explicit content) while including the other features primary genre and era as well. We shouldn't include peak position, week position, weeks on chart or Spotify popularity because these features give the model information about the targe. This would make the model look more accurate than it really is, since it would not have this information when predicting a new song.
+
+
+The code above (Table 1 Summary, Figures 1 and 2) was reviewed and designed with help from Claude. Anthropic. (2026). Claude (Opus 5.5 version) [Large language model]. https://claude.ai
+
+### Model results
+
+_To be added._
+
+### Discussion
+
+_To be added._
+
+## References
+
+_To be added._
