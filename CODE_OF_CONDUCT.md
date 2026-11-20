@@ -40,7 +40,9 @@ This Code of Conduct applies to all project-related interactions, including GitH
 
 ## Reporting Violations
 
-Anyone who experiences or witnesses a violation should report it privately to a Group 25 member through Slack.
+Anyone who experiences or witnesses a violation should report it privately to a Group 25 member through one of the following emails:
+Jack Liu: [jack.liu4968@gmail.com](mailto:jack.liu4968@gmail.com)
+
 
 Reports will be handled promptly, fairly, and as confidentially as reasonably possible. If a report involves a member, contributors may contact another non involved member or the DSCI 522 teaching team.
 
