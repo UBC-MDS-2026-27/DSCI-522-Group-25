@@ -6,7 +6,9 @@ editor_options: markdown: wrap: sentence ---
 
 ## Predicting Billboard Top 100 top 10 Songs Using Audio Features and Metadata
 
-Authors: Nitpreet Bamra, Eshadhi Bogoda, Jack Liu, James Wang This project was developed by Team 25 as part of DSCI 522: Data Science Workflows in the University of British Columbia's MDS program (2026–2027).
+Authors: Nitpreet Bamra, Eshadhi Bogoda, Jack Liu, James Wang
+
+This project was developed by Team 25 as part of DSCI 522: Data Science Workflows in the University of British Columbia's MDS program (2026–2027).
 
 ## Project Overview/Summary
 
@@ -19,7 +21,6 @@ Our primary research question is: **Can a song's audio features, genre, and rele
 The results of this analysis may provide insight into which musical characteristics are associated with higher chart positions and how effectively these features can predict Top 10 performance. However, chart success is also influenced by factors such as marketing, audience preferences, and social media trends, which may not be captured in the available data.
 
 Findings/Model results:....
-
 
 ### Dataset
 
@@ -74,9 +75,11 @@ uv sync
 The analysis uses kagglehub to download the dataset directly from Kaggle.
 
 The dataset is identified by:
-```bash
+
+``` bash
 dataset = "thedevastator/billboard-hot-100-audio-features"
 ```
+
 The following files are downloaded:
 
 Hot Stuff.csv Hot 100 Audio Features.csv
@@ -136,6 +139,6 @@ The original Kaggle dataset is subject to its own licensing terms.
 
 Generative AI tools were used to assist with various aspects of the project's documentation and code development.
 
-ChatGPT (OpenAI) was used to help draft and organize project documentation, including the README.
+- ChatGPT (OpenAI) was used to help draft and organize project documentation, including the README.
 
-Claude (Anthropic) was used to assist with reviewing and designing portions of the data download code.
+- Claude (Anthropic) was used to assist with reviewing and designing portions of the data download code.
