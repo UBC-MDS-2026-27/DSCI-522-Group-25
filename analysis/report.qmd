@@ -379,6 +379,22 @@ The code above was reviewed and designed by Claude. Anthropic. (2026). Claude (O
 
 _To be added._
 
+### Modelling Methods
+
+In our analysis, we chose to compare a baseline dummy model to a logistic regression model. Our dummy model learns the most common target class within our data and always predicts that class (not Top 10), which represents a model that does not learn any useful statistical patterns from the data. The main model we chose for this analysis is the logistic regression model, which predicts either a positive (Top 10) or negative (not Top 10) class using learned patterns from the data.
+
+We tuned the logistic regression using a grid search with 5-fold cross-validation, trying different values of the regularization strength C (0.001 to 1,000) and either no class weighting or balanced class weights. Since only about 12% of songs reached the Top 10, we chose the model with the best F1 score instead of the best accuracy.
+
+### Modelling Results
+
+Table 2 shows the cross-validation results. The baseline has a high accuracy (0.877) but an F1 score of 0, because it never predicts a Top 10 song. The tuned logistic regression (C = 0.1, balanced class weights) reached an F1 score of 0.277. It found about 65% of Top 10 songs (recall of 0.648), but only about 18% of its predicted hits were correct (precision of 0.176).
+
+[still not done]
+
+Overall, the model does better than the baseline, but the audio features, genre and era only give a weak signal for predicting Top 10 hits.
+
+The text above was drafted with help from Claude. Anthropic. (2026). Claude (Opus 5.5 version) [Large language model]. https://claude.ai
+
 ### Discussion
 
 _To be added._
