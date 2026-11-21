@@ -44,7 +44,7 @@ from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_sc
 ```
 
 ## Summary
-_To be added._
+This project investigates whether a song's audio features, genre, and release era can predict whether a Billboard Hot 100 song reaches the Top 10. Using historical Billboard chart data and Spotify audio features obtained from Kaggle, we developed a logistic regression classification model and compared its performance against a baseline model. Our tuned logistic regression model achieved an accuracy of 58.6%, recall of 65.0%, precision of 16.9%, and F1-score of 0.268 on the held-out test set. Although the model correctly identified approximately 65% of Top 10 songs, its low precision indicates that many songs predicted to reach the Top 10 did not actually do so. However, the baseline model achieved a higher accuracy of 88.3% but failed to identify any Top 10 songs. These findings suggest that audio features, genre, and release era provide limited predictive information about chart success. The imbalance between Top 10 and non-Top 10 songs, along with the model's high number of false positives, are important limitations. Overall, the model is not yet reliable enough for predicting Top 10 chart success in practice.
 
 ## Introduction
 
