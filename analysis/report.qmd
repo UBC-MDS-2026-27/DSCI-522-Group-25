@@ -389,7 +389,7 @@ We tuned the logistic regression using a grid search with 5-fold cross-validatio
 
 Table 2 shows the cross-validation results. The baseline has a high accuracy (0.877) but an F1 score of 0, because it never predicts a Top 10 song. The tuned logistic regression (C = 0.1, balanced class weights) reached an F1 score of 0.277. It found about 65% of Top 10 songs (recall of 0.648), but only about 18% of its predicted hits were correct (precision of 0.176).
 
-[still not done]
+On the test set (Table 3), the tuned logistic regression reached an F1 score of 0.268, with a recall of 0.65 and a precision of 0.169. These scores are very close to the cross-validation scores in Table 2 (F1 of 0.277), which suggests the cross-validation results were a reliable estimate of how the model performs on new songs. The confusion matrix in Figure 3 shows the same pattern: the model correctly identifies most of the songs that reached the Top 10, but it also predicts many songs as hits that did not make it, which is why its precision is low.
 
 Overall, the model does better than the baseline, but the audio features, genre and era only give a weak signal for predicting Top 10 hits.
 
