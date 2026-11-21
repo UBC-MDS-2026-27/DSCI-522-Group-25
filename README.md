@@ -8,7 +8,7 @@ Authors: Nitpreet Bamra, Eshadhi Bogoda, Jack Liu, James Wang
 
 This project was developed by Team 25 as part of DSCI 522: Data Science Workflows in the University of British Columbia's MDS program (2026–2027).
 
-## Project Overview/Summary
+## About
 
 What makes a song reach the top of the Billboard charts? While music success is influenced by various factors, characteristics such as a song's audio features, genre, and release era may help explain differences in chart performance.
 
@@ -16,10 +16,7 @@ Our project investigates whether these characteristics can predict if a song app
 
 Our primary research question is: **Can a song's audio features, genre, and release era predict whether a Billboard Hot 100 song reaches the Top 10?**
 
-The results of this analysis may provide insight into which musical characteristics are associated with higher chart positions and how effectively these features can predict Top 10 performance. However, chart success is also influenced by factors such as marketing, audience preferences, and social media trends, which may not be captured in the available data.
-
-Findings/Model results:...
-
+Our analysis used approximately over 24,000 songs, with only 2,081 out of 16,851 songs in the training set reaching the Top 10. Our tuned logistic regression model achieved an accuracy of 0.586, recall of 0.650, precision of 0.169, and F1-score of 0.268 on the held-out test set. Although the model correctly identified approximately 65% of songs that reached the Billboard Hot 100 Top 10, its low precision indicates a high number of false positives. These findings suggest that audio features, genre, and release era have limited predictive power for identifying Top 10 hits, and further improvements are needed before the model can reliably predict chart success.
 
 ### Dataset
 
@@ -38,7 +35,7 @@ Dataset Source: [Billboard Hot 100 Audio Features](https://www.kaggle.com/datase
 
 Dataset license: Dataset copyright by authors, as listed on the [Kaggle dataset page](https://www.kaggle.com/datasets/thedevastator/billboard-hot-100-audio-features). The data was originally compiled by Sean Miller; please credit the authors when reusing it.
 
-### Running the Analysis
+### Usage
 
 The following instructions describe how to reproduce the analysis locally.
 
@@ -46,13 +43,13 @@ The following instructions describe how to reproduce the analysis locally.
 
 Ensure that the following software is installed:
 
-Git — for cloning the repository.
+- Git — for cloning the repository.
 
-Python — for running the analysis.
+- Python — for running the analysis.
 
-uv — for managing the Python environment and dependencies.
+- uv — for managing the Python environment and dependencies.
 
-Quarto — for rendering the analysis report.
+- Quarto — for rendering the analysis report.
 
 2.  Clone the Repository
 
@@ -133,7 +130,6 @@ Report: Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 Internation
 The original Kaggle dataset: Dataset copyright by authors (see Dataset license above)
 
 For the complete license terms, see LICENSE.md.
-
 
 ### Generative AI Usage
 
