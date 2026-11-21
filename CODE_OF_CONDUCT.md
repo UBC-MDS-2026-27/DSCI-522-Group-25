@@ -2,7 +2,7 @@
 
 ## Our Commitment
 
-Group 25 is committed to providing an inclusive, and respectful environment for everyone contributing to our DSCI 522 project, Predicting Billboard Hot 100 Top 10 Songs Using Audio Features and Metadata.
+Group 25 is committed to providing an inclusive and respectful environment for everyone contributing to our DSCI 522 project, Predicting Top 10 Billboard Hits Using Audio Features and Metadata.
 
 We value diversity in backgrounds, identities, experiences, and perspectives. All contributors are expected to treat others with respect, regardless of race, ethnicity, gender identity, sexual orientation, disability, religion, age, or level of experience.
 
@@ -40,9 +40,7 @@ This Code of Conduct applies to all project-related interactions, including GitH
 
 ## Reporting Violations
 
-Anyone who experiences or witnesses a violation should report it privately to a Group 25 member through one of the following emails:
-
-Jack Liu: [jack.liu4968\@gmail.com](mailto:jack.liu4968@gmail.com)
+Anyone who experiences or witnesses a violation should report it privately to any Group 25 member, or to the DSCI 522 teaching team.
 
 Reports will be handled promptly, fairly, and as confidentially as reasonably possible. If a report involves a member, contributors may contact another non involved member or the DSCI 522 teaching team.
 
@@ -68,6 +66,6 @@ Consequences may include:
 
 This Code of Conduct is adapted from the [Python Software Foundation Code of Conduct](https://policies.python.org/python.org/code-of-conduct/).
 
-The original is licensed under the [Creative Commons Attribution-ShareAlike 3.0 Unported License (CC BY-SA 3.0)](https://creativecommons.org/licenses/by-sa/3.0/). This adaptation is distributed under the same license. This adaptation is distributed under the same license.
+The original is licensed under the [Creative Commons Attribution-ShareAlike 3.0 Unported License (CC BY-SA 3.0)](https://creativecommons.org/licenses/by-sa/3.0/). This adaptation is distributed under the same license.
 
 The policy has been shortened and modified to suit Group 25's academic data science project.

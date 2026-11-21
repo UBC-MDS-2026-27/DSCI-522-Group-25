@@ -2,7 +2,7 @@
 
 # DSCI-522-Group-25
 
-## Predicting Billboard Top 100 top 10 Songs Using Audio Features and Metadata
+## Predicting Top 10 Billboard Hits Using Audio Features and Metadata
 
 Authors: Nitpreet Bamra, Eshadhi Bogoda, Jack Liu, James Wang
 
@@ -18,7 +18,8 @@ Our primary research question is: **Can a song's audio features, genre, and rele
 
 The results of this analysis may provide insight into which musical characteristics are associated with higher chart positions and how effectively these features can predict Top 10 performance. However, chart success is also influenced by factors such as marketing, audience preferences, and social media trends, which may not be captured in the available data.
 
-Findings/Model results:....
+Findings/Model results:...
+
 
 ### Dataset
 
@@ -26,7 +27,8 @@ Our project uses the Billboard Hot 100 Audio Features public dataset, published 
 
 Our analysis combines two files from this dataset:
 
-Hot Stuff.csv: Contains historical Billboard Hot 100 chart information, including song titles, performers, and chart performance. Hot 100 Audio Features.csv: Contains audio characteristics and metadata associated with songs appearing on the Billboard Hot 100.
+- `Hot Stuff.csv`: Contains historical Billboard Hot 100 chart information, including song titles, performers, and chart performance.
+- `Hot 100 Audio Features.csv`: Contains audio characteristics and metadata associated with songs appearing on the Billboard Hot 100.
 
 The two files are merged using song titles and performers as matching identifiers. The combined dataset is then processed to investigate whether audio features, genre, and release era can predict Top 10 chart performance. The response variable is a binary indicator representing whether a song reached the Billboard Hot 100 Top 10.
 
@@ -34,7 +36,7 @@ The data is downloaded programmatically using the Python kagglehub package. Orig
 
 Dataset Source: [Billboard Hot 100 Audio Features](https://www.kaggle.com/datasets/thedevastator/billboard-hot-100-audio-features), published by `thedevastator` on Kaggle.
 
-Dataset license: Data files © Original Authors
+Dataset license: Dataset copyright by authors, as listed on the [Kaggle dataset page](https://www.kaggle.com/datasets/thedevastator/billboard-hot-100-audio-features). The data was originally compiled by Sean Miller; please credit the authors when reusing it.
 
 ### Running the Analysis
 
@@ -57,7 +59,7 @@ Quarto — for rendering the analysis report.
 Open a terminal in git bash and run:
 
 ``` bash
-git clone <https://github.com/UBC-MDS-2026-27/DSCI-522-predicting-top-10-billboard-hits-using-audio-features-and-metadata.git>
+git clone https://github.com/UBC-MDS-2026-27/DSCI-522-predicting-top-10-billboard-hits-using-audio-features-and-metadata.git
 
 cd DSCI-522-predicting-top-10-billboard-hits-using-audio-features-and-metadata
 ```
@@ -95,19 +97,16 @@ mkdir -p data/raw data/processed
 From the root directory of the repository, run:
 
 ``` bash
-cd analysis 
-uv run quarto render analysis/report.qmd
+uv run quarto render analysis/report.qmd or uv run quarto preview analysis/report.qmd 
 ```
 
-Run the render command inside analysis/
+This renders `analysis/report.html`. Quarto runs the code from the `analysis/` folder, so the relative paths to `data/` in the report resolve correctly.
 
 The analysis performs data loading, cleaning, exploratory data analysis, model training, and evaluation. The results are presented in a rendered HTML report.
 
 6.  View the Report
 
 After rendering, open the generated HTML file in the analysis/ directory.
-
-The report is also available online at : ........
 
 ### Dependencies
 
@@ -131,7 +130,7 @@ Code: MIT License
 
 Report: Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)
 
-The original Kaggle dataset: Data files © Original Authors
+The original Kaggle dataset: Dataset copyright by authors (see Dataset license above)
 
 For the complete license terms, see LICENSE.md.
 

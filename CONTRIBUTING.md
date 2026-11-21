@@ -1,6 +1,6 @@
 # Contributing Guidelines
 
-Thank you for your interest in contributing to Group 25's DSCI 522 project, Predicting Billboard Hot 100 Top 10 Songs Using Audio Features and Metadata.
+Thank you for your interest in contributing to Group 25's DSCI 522 project, Predicting Top 10 Billboard Hits Using Audio Features and Metadata.
 
 We welcome suggestions, bug reports, and contributions that improve the project's code, analysis, documentation, and reproducibility.
 
@@ -38,7 +38,7 @@ To contribute code, analysis, or documentation:
 
 3.  Make your changes, following the project's existing structure and conventions.
 
-4.  Test your changes and ensure that the analysis remains reproducible.
+4.  Check that the report still renders without errors and that the analysis remains reproducible.
 
 5.  Commit your changes with a clear, descriptive message.
 
