@@ -52,15 +52,27 @@ The Billboard Hot 100 is the main weekly ranking of the most popular songs in th
 
 Predicting which songs will become hits is valuable to many people in the music industry. If the way a song sounds can help predict its success, record labels and streaming services could make more informed decisions about where to invest their time and money. Additionally, this information could help new artists break into the music industry.
 
-Spotify audio features, which describe characteristics of a song such as its danceability, energy and tempo, are widely used in music research, for example in classifying songs by genre (Castillo, Flores, and Leray 2024). We want to investigate whether Spotify’s audio features along with genre and release era can predict which songs reach the Top 10.
+Spotify audio features, which describe characteristics of a song such as its danceability, energy and tempo, are widely used in music research, for example in predicting Spotify audio features from Last.fm tags (Castillo, Flores, and Leray 2024). Our research question is: can a song’s audio features, genre and release era predict whether it reaches the Top 10? Each song in our data has a known peak position, so the data can directly answer this question.
 
-To answer this question, we use the “Billboard Hot 100 Audio Features” data set from Kaggle (“thedevastator” 2023) originally compiled by Sean Miller (Miller 2023). It combines the weekly Billboard Hot 100 charts since 1958 with audio features for each song from Spotify’s Web API, such as danceability, energy, valence (how positive a song sounds) and tempo, as well as each song’s genre. After cleaning, each row in our data represents one song, with 24073  songs in total. Our target variable is whether a song reached the Top 10: a song is classified as “Top 10” if its peak position on the Hot 100 was 10 or higher, and “Not Top 10” otherwise. Because every song in the data has a known peak position along with its audio features and genre, this data allows us to directly test whether these characteristics can predict Top 10 success.
+To answer this question, we use the “Billboard Hot 100 Audio Features” data set from Kaggle (The Devastator 2023) originally compiled by Sean Miller (Miller 2023). It combines the weekly Billboard Hot 100 charts since 1958 with audio features for each song from Spotify’s Web API, such as danceability, energy, valence (how positive a song sounds) and tempo, as well as each song’s genre. After cleaning, each row in our data represents one song, with 24073  songs in total. Our target variable is whether a song reached the Top 10: a song is classified as “Top 10” if its peak position on the Hot 100 was 10 or lower (that is, it reached the top 10 at least once), and “Not Top 10” otherwise. Because every song in the data has a known peak position along with its audio features and genre, this data allows us to directly test whether these characteristics can predict Top 10 success.
 
 ## Methods
 
 ### Data
 
-_To be added: describe the data set and how it was downloaded._
+We use the “Billboard Hot 100 Audio Features” dataset on Kaggle (The Devastator 2023), which was originally compiled by Sean Miller (Miller 2023). It has two files:
+
+- **Hot Stuff** records each song's position on the Billboard Hot 100 for every week since 1958.
+- **Hot 100 Audio Features** records Spotify audio features and genre for songs on the chart.
+
+The download code below fetches both files with the `kagglehub` package and saves them to `data/raw/`. We join the files on song title and performer, keeping songs found in both. Each song is kept once, using the week it reached its peak position. We then drop unused columns and rows with missing values, and save the result to `data/processed/`.
+
+After cleaning, each row is one song, and the data has 24,073 songs. The target is whether a song reached the Top 10: a song is “Top 10” if its peak position was 10 or lower, and “Not Top 10” otherwise. The predictors are:
+
+- audio features: danceability, energy, valence, loudness, tempo, acousticness, speechiness, instrumentalness, liveness and track duration;
+- release era: the year of the song's peak week;
+- primary genre: the first genre listed for the song;
+- explicit content: whether the track is marked explicit.
 
 ```{python}
 ## Data Download
@@ -83,7 +95,7 @@ The code above was reviewed and designed by Claude. Anthropic. (2026). Claude (O
 
 
 
-### Drop unsed data and process data
+### Drop unused data and process data
 
 ```{python}
 df1 = df1.drop(columns=["url", "SongID"])
@@ -101,7 +113,7 @@ df_final = pd.merge(
 
 ```
 
-### write df_final to a cleaned dataset
+### Write df_final to a cleaned dataset
 ```{python}
 
 #drop unused columns in df_final 
@@ -132,7 +144,9 @@ dupe_counts = (
 print(dupe_counts)
 ```
 
-### the genre column has multiple different genres associates with each song. ex ['dance pop', 'pop', 'post-teen pop'], we want to change this just a single string
+### Keep one genre per song
+
+Each song can have several genres (for example, ['dance pop', 'pop', 'post-teen pop']). We keep only the first one as a single string.
 
 ```{python}
 def first_genre(val):
@@ -163,17 +177,17 @@ df_final["primary_genre"] = df_final["spotify_genre"].apply(first_genre)
 
 The code above (the first_genre function) was reviewed and designed by Claude. Anthropic. (2026). Claude (Opus 5.5 version) [Large language model]. https://claude.ai
 
-drop unused columns
+### Drop unused columns
 
 ```{python}
 df_final = df_final.drop(columns=["Previous Week Position", "spotify_genre"])
 
-## drop the null rows
+# Drop rows with missing values
 df_final = df_final.dropna()
 df_final
 ```
 
-save df_final to a csv
+### Save the processed dataset
 
 ```{python}
 df_final.to_csv("../data/processed/df_final_cleaned.csv", index=False)
@@ -181,7 +195,7 @@ df_final.to_csv("../data/processed/df_final_cleaned.csv", index=False)
 df_final["top_10"] = (df_final["Peak Position"] <= 10).astype(int)
 ```
 
-##Split into train test split 
+## Split into train and test sets
 
 ```{python}
 train_df, test_df = train_test_split(df_final, test_size = 0.3, random_state= 552)
@@ -253,7 +267,7 @@ param_grid = {
 search = GridSearchCV(
     lr_pipe, param_grid, cv=5,
     scoring=scoring, refit="f1",
-    return_train_score=True, n_jobs=-1,
+    return_train_score=True, n_jobs=1,
 )
 search.fit(X_train, y_train)
 search.best_params_
@@ -276,16 +290,22 @@ table2.columns = ["Accuracy", "Precision", "Recall", "F1"]
 table2
 ```
 
-*Table 2: Mean 5-fold cross-validation scores for the baseline and tuned logistic regression.*
+*Table 1: Mean 5-fold cross-validation scores for the baseline and tuned logistic regression.*
 
 The code above was reviewed and designed by Claude. Anthropic. (2026). Claude (Opus 5.5 version) [Large language model]. https://claude.ai
+
+### Modelling Methods
+
+In our analysis, we chose to compare a baseline dummy model to a logistic regression model. Our dummy model learns the most common target class within our data and always predicts that class (not Top 10), which represents a model that does not learn any useful statistical patterns from the data. The main model we chose for this analysis is the logistic regression model, which predicts either a positive (Top 10) or negative (not Top 10) class using learned patterns from the data.
+
+We tuned the logistic regression using a grid search with 5-fold cross-validation, trying different values of the regularization strength C (0.001 to 1,000) and either no class weighting or balanced class weights. Since only about 12% of songs reached the Top 10, we chose the model with the best F1 score instead of the best accuracy.
 
 ## Results & Discussions 
 
 ### Exploratory data analysis
 
 ```{python}
-# Table 1: average audio feature values for Top 10 vs. non-Top 10 songs
+# Table 2: average audio feature values for Top 10 vs. non-Top 10 songs
 # (training data only)
 table_1 = (
     train_df
@@ -304,9 +324,9 @@ table_1.columns = ["Number of songs", "Danceability", "Energy", "Valence",
 table_1
 
 ```
-*Table 1: Summary of audio features by Top 10 status*
+*Table 2: Summary of audio features by Top 10 status*
 
-Table 1 summarizes the average values of five audio features for songs that did and did not reach the Top 10 in the training data. We selected these five features (danceability, energy, valence, loudness and tempo) because they are commonly used to describe a song’s overall sound. The differences between the two groups are quite small. Top 10 songs are slightly more danceable (0.62 vs. 0.60) and have slightly higher valence (0.63 vs. 0.60), while energy, loudness and tempo are nearly identical. This tells us that no single audio feature strongly separates Top 10 songs from other songs.
+Table 2 summarizes the average values of five audio features for songs that did and did not reach the Top 10 in the training data. We selected these five features (danceability, energy, valence, loudness and tempo) because they are commonly used to describe a song’s overall sound. The differences between the two groups are quite small. Top 10 songs are slightly more danceable (0.62 vs. 0.60) and have slightly higher valence (0.63 vs. 0.60), while energy, loudness and tempo are nearly identical. This tells us that no single audio feature strongly separates Top 10 songs from other songs.
 
 
 ```{python}
@@ -340,7 +360,7 @@ alt.Chart(class_counts).mark_bar().encode(
 ```
 *Figure 1: Class balance of Top 10 vs. non-Top 10 songs*
 
-Figure 1 shows the number of songs in each class. We used a bar chart because it makes it easy to compare the counts of the two categories. The classes are highly imbalanced: only 2,081 songs (about 12%) reached the Top 10, compared to 14,770 songs that did not. Due to the imbalance, using only accuracy would be misleading (He and Garcia 2009) since a model that always predicted “Not Top 10” would still be about 88% accurate.Instead we should use metrics such as recall and F1 score, which better reflect how well the model identifies Top 10 songs.
+Figure 1 shows the number of songs in each class. We used a bar chart because it makes it easy to compare the counts of the two categories. The classes are highly imbalanced: only 2,081 songs (about 12%) reached the Top 10, compared to 14,770 songs that did not. Due to the imbalance, using only accuracy would be misleading (He and Garcia 2009) since a model that always predicted “Not Top 10” would still be about 88% accurate. Instead, we should use metrics such as recall and F1 score, which better reflect how well the model identifies Top 10 songs.
 
 
 ```{python}
@@ -374,12 +394,12 @@ alt.Chart(plot_df).transform_density(
 ```
 *Figure 2: Danceability of Top 10 vs. non-Top 10 songs*
 
-Figure 2 shows the distribution of danceability for Top 10 and non-Top 10 songs. The Top 10 distribution is shifted slightly to the right, meaning Top 10 songs tend to be a little more danceable. However, the significant overlap suggests that danceability is not enough to predict Top 10 status. This is consistent with the small differences seen in Table 1.
+Figure 2 shows the distribution of danceability for Top 10 and non-Top 10 songs. The Top 10 distribution is shifted slightly to the right, meaning Top 10 songs tend to be a little more danceable. However, the significant overlap suggests that danceability is not enough to predict Top 10 status. This is consistent with the small differences seen in Table 2.
 
 Overall, the EDA suggests that no single audio feature strongly distinguishes Top 10 songs from other songs. Therefore, we should use all the audio features (danceability, energy, valence, loudness, tempo, acousticness, speechiness, instrumentalness, liveness, duration and explicit content) while including the other features primary genre and era as well. We shouldn't include peak position, week position, weeks on chart or Spotify popularity because these features give the model information about the targe. This would make the model look more accurate than it really is, since it would not have this information when predicting a new song.
 
 
-The code above (Table 1 Summary, Figures 1 and 2) was reviewed and designed with help from Claude. Anthropic. (2026). Claude (Opus 5.5 version) [Large language model]. https://claude.ai
+The code above (Table 2 Summary, Figures 1 and 2) was reviewed and designed with help from Claude. Anthropic. (2026). Claude (Opus 5.5 version) [Large language model]. https://claude.ai
 
 ### Test set evaluation
 
@@ -428,17 +448,11 @@ The code above was reviewed and designed by Claude. Anthropic. (2026). Claude (O
 
 _To be added._
 
-### Modelling Methods
-
-In our analysis, we chose to compare a baseline dummy model to a logistic regression model. Our dummy model learns the most common target class within our data and always predicts that class (not Top 10), which represents a model that does not learn any useful statistical patterns from the data. The main model we chose for this analysis is the logistic regression model, which predicts either a positive (Top 10) or negative (not Top 10) class using learned patterns from the data.
-
-We tuned the logistic regression using a grid search with 5-fold cross-validation, trying different values of the regularization strength C (0.001 to 1,000) and either no class weighting or balanced class weights. Since only about 12% of songs reached the Top 10, we chose the model with the best F1 score instead of the best accuracy.
-
 ### Modelling Results
 
-Table 2 shows the cross-validation results. The baseline has a high accuracy (0.877) but an F1 score of 0, because it never predicts a Top 10 song. The tuned logistic regression (C = 0.1, balanced class weights) reached an F1 score of 0.277. It found about 65% of Top 10 songs (recall of 0.648), but only about 18% of its predicted hits were correct (precision of 0.176).
+Table 1 shows the cross-validation results. The baseline has a high accuracy (0.877) but an F1 score of 0, because it never predicts a Top 10 song. The tuned logistic regression (C = 0.1, balanced class weights) reached an F1 score of 0.277. It found about 65% of Top 10 songs (recall of 0.648), but only about 18% of its predicted hits were correct (precision of 0.176).
 
-On the test set (Table 3), the tuned logistic regression reached an F1 score of 0.268, with a recall of 0.65 and a precision of 0.169. These scores are very close to the cross-validation scores in Table 2 (F1 of 0.277), which suggests the cross-validation results were a reliable estimate of how the model performs on new songs. The confusion matrix in Figure 3 shows the same pattern: the model correctly identifies most of the songs that reached the Top 10, but it also predicts many songs as hits that did not make it, which is why its precision is low.
+On the test set (Table 3), the tuned logistic regression reached an F1 score of 0.268, with a recall of 0.65 and a precision of 0.169. These scores are very close to the cross-validation scores in Table 1 (F1 of 0.277), which suggests the cross-validation results were a reliable estimate of how the model performs on new songs. The confusion matrix in Figure 3 shows the same pattern: the model correctly identifies most of the songs that reached the Top 10, but it also predicts many songs as hits that did not make it, which is why its precision is low.
 
 Overall, the model does better than the baseline, but the audio features, genre and era only give a weak signal for predicting Top 10 hits.
 
