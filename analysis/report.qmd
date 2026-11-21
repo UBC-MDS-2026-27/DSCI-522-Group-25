@@ -39,6 +39,8 @@ import ast
 from sklearn.dummy import DummyClassifier
 from sklearn.model_selection import cross_validate
 from sklearn.model_selection import GridSearchCV
+import matplotlib.pyplot as plt
+from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
 ```
 
 ## Summary
@@ -372,6 +374,49 @@ table2
 ```
 
 *Table 2: Mean 5-fold cross-validation scores for the baseline and tuned logistic regression.*
+
+The code above was reviewed and designed by Claude. Anthropic. (2026). Claude (Opus 5.5 version) [Large language model]. https://claude.ai
+
+### Test set evaluation
+
+```{python}
+dummy_pipe.fit(X_train, y_train)
+
+models = {
+    "Dummy (most frequent)": dummy_pipe,
+    "Logistic regression (tuned)": search.best_estimator_,
+}
+
+rows = {}
+for name, model in models.items():
+    y_pred = model.predict(X_test)
+    rows[name] = {
+        "Accuracy":  accuracy_score(y_test, y_pred),
+        "Precision": precision_score(y_test, y_pred, zero_division=0),
+        "Recall":    recall_score(y_test, y_pred),
+        "F1":        f1_score(y_test, y_pred),
+    }
+
+table3 = pd.DataFrame(rows).T.round(3)
+table3
+```
+
+*Table 3: Test set performance of the baseline and tuned logistic regression models.*
+
+```{python}
+fig, ax = plt.subplots(figsize=(5, 4))
+ConfusionMatrixDisplay.from_estimator(
+    search.best_estimator_, X_test, y_test,
+    display_labels=["Not Top 10", "Top 10"],
+    cmap="Blues", ax=ax,
+)
+ax.set_xlabel("Predicted outcome")
+ax.set_ylabel("Actual outcome")
+plt.tight_layout()
+plt.show()
+```
+
+*Figure 3: Confusion matrix of the tuned logistic regression on the test set.*
 
 The code above was reviewed and designed by Claude. Anthropic. (2026). Claude (Opus 5.5 version) [Large language model]. https://claude.ai
 
