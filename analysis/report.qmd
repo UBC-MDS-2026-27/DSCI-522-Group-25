@@ -48,7 +48,13 @@ _To be added._
 
 ## Introduction
 
-_To be added._
+The Billboard Hot 100 is the main weekly ranking of the most popular songs in the United States. Songs are ranked using a combination of streaming, radio airplay and digital sales. Reaching the Top 10 of this chart is a major marker of commercial success. A Top 10 song typically brings an artist wider recognition, more radio play and greater visibility on streaming platforms.  
+
+Predicting which songs will become hits is valuable to many people in the music industry. If the way a song sounds can help predict its success, record labels and streaming services could make more informed decisions about where to invest their time and money. Additionally, this information could help new artists break into the music industry.
+
+Spotify audio features, which describe characteristics of a song such as its danceability, energy and tempo, are widely used in music research, for example in classifying songs by genre (Castillo, Flores, and Leray 2024). We want to investigate whether Spotify’s audio features along with genre and release era can predict which songs reach the Top 10.
+
+To answer this question, we use the “Billboard Hot 100 Audio Features” data set from Kaggle (“thedevastator” 2023) originally compiled by Sean Miller (Miller 2023). It combines the weekly Billboard Hot 100 charts since 1958 with audio features for each song from Spotify’s Web API, such as danceability, energy, valence (how positive a song sounds) and tempo, as well as each song’s genre. After cleaning, each row in our data represents one song, with 24073  songs in total. Our target variable is whether a song reached the Top 10: a song is classified as “Top 10” if its peak position on the Hot 100 was 10 or higher, and “Not Top 10” otherwise. Because every song in the data has a known peak position along with its audio features and genre, this data allows us to directly test whether these characteristics can predict Top 10 success.
 
 ## Methods
 
@@ -334,7 +340,7 @@ alt.Chart(class_counts).mark_bar().encode(
 ```
 *Figure 1: Class balance of Top 10 vs. non-Top 10 songs*
 
-Figure 1 shows the number of songs in each class. We used a bar chart because it makes it easy to compare the counts of the two categories. The classes are highly imbalanced: only 2,081 songs (about 12%) reached the Top 10, compared to 14,770 songs that did not. Due to the imbalance, using only accuracy would be misleading since a model that always predicted “Not Top 10” would still be about 88% accurate.Instead we should use metrics such as recall and F1 score, which better reflect how well the model identifies Top 10 songs.
+Figure 1 shows the number of songs in each class. We used a bar chart because it makes it easy to compare the counts of the two categories. The classes are highly imbalanced: only 2,081 songs (about 12%) reached the Top 10, compared to 14,770 songs that did not. Due to the imbalance, using only accuracy would be misleading (He and Garcia 2009) since a model that always predicted “Not Top 10” would still be about 88% accurate.Instead we should use metrics such as recall and F1 score, which better reflect how well the model identifies Top 10 songs.
 
 
 ```{python}
@@ -428,4 +434,10 @@ _To be added._
 
 ## References
 
-_To be added._
+Castillo, Jaime Ramírez, M. Julia Flores, and Philippe Leray. 2024. "Predicting Spotify Audio Features from Last.fm Tags." *Multimedia Tools and Applications* 83 (16): 48311–48330. https://doi.org/10.1007/s11042-023-17160-5.
+
+He, Haibo, and Edwardo A. Garcia. 2009. "Learning from Imbalanced Data." *IEEE Transactions on Knowledge and Data Engineering* 21 (9): 1263–1284. https://doi.org/10.1109/TKDE.2008.239.
+
+Miller, Sean. 2023. "Billboard Hot 100 Weekly Charts with Spotify Audio Features." data.world. https://data.world/kcmillersean.
+
+The Devastator. 2023. "Billboard Hot Weekly Charts: Billboard Hot 100 Weekly Charts with Spotify Audio Features." Kaggle. https://www.kaggle.com/datasets/thedevastator/billboard-hot-100-audio-features.
