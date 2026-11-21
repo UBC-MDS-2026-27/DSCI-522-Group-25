@@ -124,7 +124,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<div id="07ec9ce1" class="cell" data-execution_count="1">
+<div id="2b49f585" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> altair <span class="im">as</span> alt</span>
@@ -154,14 +154,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="introduction" class="level2">
 <h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
-<p><em>To be added.</em></p>
+<p>The Billboard Hot 100 is the main weekly ranking of the most popular songs in the United States. Songs are ranked using a combination of streaming, radio airplay and digital sales. Reaching the Top 10 of this chart is a major marker of commercial success. A Top 10 song typically brings an artist wider recognition, more radio play and greater visibility on streaming platforms.</p>
+<p>Predicting which songs will become hits is valuable to many people in the music industry. If the way a song sounds can help predict its success, record labels and streaming services could make more informed decisions about where to invest their time and money. Additionally, this information could help new artists break into the music industry.</p>
+<p>Spotify audio features, which describe characteristics of a song such as its danceability, energy and tempo, are widely used in music research, for example in classifying songs by genre (Castillo, Flores, and Leray 2024). We want to investigate whether Spotify’s audio features along with genre and release era can predict which songs reach the Top 10.</p>
+<p>To answer this question, we use the “Billboard Hot 100 Audio Features” data set from Kaggle (“thedevastator”, 2023) originally compiled by Sean Miller (Miller , 2023). It combines the weekly Billboard Hot 100 charts since 1958 with audio features for each song from Spotify’s Web API, such as danceability, energy, valence (how positive a song sounds) and tempo, as well as each song’s genre. After cleaning, each row in our data represents one song, with 24073 songs in total. Our target variable is whether a song reached the Top 10: a song is classified as “Top 10” if its peak position on the Hot 100 was 10 or higher, and “Not Top 10” otherwise. Because every song in the data has a known peak position along with its audio features and genre, this data allows us to directly test whether these characteristics can predict Top 10 success.</p>
 </section>
 <section id="methods" class="level2">
 <h2 class="anchored" data-anchor-id="methods">Methods</h2>
 <section id="data" class="level3">
 <h3 class="anchored" data-anchor-id="data">Data</h3>
 <p><em>To be added: describe the data set and how it was downloaded.</em></p>
-<div id="432b16d4" class="cell" data-execution_count="2">
+<div id="b878a486" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">## Data Download</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>dataset <span class="op">=</span> <span class="st">"thedevastator/billboard-hot-100-audio-features"</span></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>files <span class="op">=</span> [<span class="st">"Hot Stuff.csv"</span>, <span class="st">"Hot 100 Audio Features.csv"</span>]</span>
@@ -180,11 +183,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="drop-unsed-data-and-process-data" class="level3">
 <h3 class="anchored" data-anchor-id="drop-unsed-data-and-process-data">Drop unsed data and process data</h3>
-<div id="c2205082" class="cell" data-execution_count="3">
+<div id="81657706" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>df1 <span class="op">=</span> df1.drop(columns<span class="op">=</span>[<span class="st">"url"</span>, <span class="st">"SongID"</span>])</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>df2 <span class="op">=</span> df2.drop(columns<span class="op">=</span>[<span class="st">"SongID"</span>, <span class="st">"spotify_track_id"</span>, <span class="st">"spotify_track_preview_url"</span>, <span class="st">"spotify_track_album"</span>, <span class="st">"mode"</span>,])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="5b761ea5" class="cell" data-execution_count="4">
+<div id="0c7dff31" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>df_final <span class="op">=</span> pd.merge(</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    df1,</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    df2,</span>
@@ -196,7 +199,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="write-df_final-to-a-cleaned-dataset" class="level3">
 <h3 class="anchored" data-anchor-id="write-df_final-to-a-cleaned-dataset">write df_final to a cleaned dataset</h3>
-<div id="2d813dc8" class="cell" data-execution_count="5">
+<div id="10738fe5" class="cell" data-execution_count="5">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co">#drop unused columns in df_final </span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>df_final.info()</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>df_final <span class="op">=</span> df_final.drop(columns<span class="op">=</span>[<span class="st">"index_x"</span>, <span class="st">"Instance"</span>, <span class="st">"index_y"</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -235,7 +238,7 @@ dtypes: float64(14), int64(6), object(1), str(4)
 memory usage: 63.0+ MB</code></pre>
 </div>
 </div>
-<div id="55ede872" class="cell" data-execution_count="6">
+<div id="406ce11a" class="cell" data-execution_count="6">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>df_final <span class="op">=</span> (</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    df_final[df_final[<span class="st">"Week Position"</span>] <span class="op">==</span> df_final[<span class="st">"Peak Position"</span>]]</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    .sort_values(<span class="st">"WeekID"</span>)</span>
@@ -263,7 +266,7 @@ Index: []</code></pre>
 </section>
 <section id="the-genre-column-has-multiple-different-genres-associates-with-each-song.-ex-dance-pop-pop-post-teen-pop-we-want-to-change-this-just-a-single-string" class="level3">
 <h3 class="anchored" data-anchor-id="the-genre-column-has-multiple-different-genres-associates-with-each-song.-ex-dance-pop-pop-post-teen-pop-we-want-to-change-this-just-a-single-string">the genre column has multiple different genres associates with each song. ex [‘dance pop’, ‘pop’, ‘post-teen pop’], we want to change this just a single string</h3>
-<div id="95c57242" class="cell" data-execution_count="7">
+<div id="4f9a1995" class="cell" data-execution_count="7">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> first_genre(val):</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>    <span class="co"># if the column is empty/null/none, it returns NaN</span></span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> pd.isna(val):</span>
@@ -290,7 +293,7 @@ Index: []</code></pre>
 </div>
 <p>The code above (the first_genre function) was reviewed and designed by Claude. Anthropic. (2026). Claude (Opus 5.5 version) [Large language model]. https://claude.ai</p>
 <p>drop unused columns</p>
-<div id="f231fcd9" class="cell" data-execution_count="8">
+<div id="8f215ba7" class="cell" data-execution_count="8">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>df_final <span class="op">=</span> df_final.drop(columns<span class="op">=</span>[<span class="st">"Previous Week Position"</span>, <span class="st">"spotify_genre"</span>])</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="co">## drop the null rows</span></span>
@@ -600,13 +603,13 @@ Index: []</code></pre>
 </div>
 </div>
 <p>save df_final to a csv</p>
-<div id="75ec8a0f" class="cell" data-execution_count="9">
+<div id="9e9485a4" class="cell" data-execution_count="9">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>df_final.to_csv(<span class="st">"../data/processed/df_final_cleaned.csv"</span>, index<span class="op">=</span><span class="va">False</span>)</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>df_final[<span class="st">"top_10"</span>] <span class="op">=</span> (df_final[<span class="st">"Peak Position"</span>] <span class="op">&lt;=</span> <span class="dv">10</span>).astype(<span class="bu">int</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>##Split into train test split</p>
-<div id="a9351355" class="cell" data-execution_count="10">
+<div id="72ff33a0" class="cell" data-execution_count="10">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>train_df, test_df <span class="op">=</span> train_test_split(df_final, test_size <span class="op">=</span> <span class="fl">0.3</span>, random_state<span class="op">=</span> <span class="dv">552</span>)</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>train_df.to_csv(<span class="st">"../data/processed/df_final_train.csv"</span>, index<span class="op">=</span><span class="va">False</span>)</span>
@@ -622,7 +625,7 @@ Index: []</code></pre>
 <h2 class="anchored" data-anchor-id="results-discussions">Results &amp; Discussions</h2>
 <section id="exploratory-data-analysis" class="level3">
 <h3 class="anchored" data-anchor-id="exploratory-data-analysis">Exploratory data analysis</h3>
-<div id="68941144" class="cell" data-execution_count="11">
+<div id="a1469a01" class="cell" data-execution_count="11">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Table 1: average audio feature values for Top 10 vs. non-Top 10 songs</span></span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="co"># (training data only)</span></span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>table_1 <span class="op">=</span> (</span>
@@ -683,7 +686,7 @@ Index: []</code></pre>
 </div>
 <p><em>Table 1: Summary of audio features by Top 10 status</em></p>
 <p>Table 1 summarizes the average values of five audio features for songs that did and did not reach the Top 10 in the training data. We selected these five features (danceability, energy, valence, loudness and tempo) because they are commonly used to describe a song’s overall sound. The differences between the two groups are quite small. Top 10 songs are slightly more danceable (0.62 vs.&nbsp;0.60) and have slightly higher valence (0.63 vs.&nbsp;0.60), while energy, loudness and tempo are nearly identical. This tells us that no single audio feature strongly separates Top 10 songs from other songs.</p>
-<div id="846c53f5" class="cell" data-execution_count="12">
+<div id="84727ee2" class="cell" data-execution_count="12">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Figure 1: number of songs that did and did not reach the Top 10</span></span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="co"># (training data only)</span></span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>class_counts <span class="op">=</span> (</span>
@@ -714,23 +717,23 @@ Index: []</code></pre>
 <div class="cell-output cell-output-display" data-execution_count="12">
 
 <style>
-  #altair-viz-b0e24b4cb5784d8cba3ef1105c49567d.vega-embed {
+  #altair-viz-607acfba981249d78305669c2c437033.vega-embed {
     width: 100%;
     display: flex;
   }
 
-  #altair-viz-b0e24b4cb5784d8cba3ef1105c49567d.vega-embed details,
-  #altair-viz-b0e24b4cb5784d8cba3ef1105c49567d.vega-embed details summary {
+  #altair-viz-607acfba981249d78305669c2c437033.vega-embed details,
+  #altair-viz-607acfba981249d78305669c2c437033.vega-embed details summary {
     position: relative;
   }
 </style>
-<div id="altair-viz-b0e24b4cb5784d8cba3ef1105c49567d"></div>
+<div id="altair-viz-607acfba981249d78305669c2c437033"></div>
 <script type="text/javascript">
   var VEGA_DEBUG = (typeof VEGA_DEBUG == "undefined") ? {} : VEGA_DEBUG;
   (function(spec, embedOpt){
     let outputDiv = document.currentScript.previousElementSibling;
-    if (outputDiv.id !== "altair-viz-b0e24b4cb5784d8cba3ef1105c49567d") {
-      outputDiv = document.getElementById("altair-viz-b0e24b4cb5784d8cba3ef1105c49567d");
+    if (outputDiv.id !== "altair-viz-607acfba981249d78305669c2c437033") {
+      outputDiv = document.getElementById("altair-viz-607acfba981249d78305669c2c437033");
     }
 
     const paths = {
@@ -783,8 +786,8 @@ Index: []</code></pre>
 </div>
 </div>
 <p><em>Figure 1: Class balance of Top 10 vs.&nbsp;non-Top 10 songs</em></p>
-<p>Figure 1 shows the number of songs in each class. We used a bar chart because it makes it easy to compare the counts of the two categories. The classes are highly imbalanced: only 2,081 songs (about 12%) reached the Top 10, compared to 14,770 songs that did not. Due to the imbalance, using only accuracy would be misleading since a model that always predicted “Not Top 10” would still be about 88% accurate.Instead we should use metrics such as recall and F1 score, which better reflect how well the model identifies Top 10 songs.</p>
-<div id="6b2c8aa8" class="cell" data-execution_count="13">
+<p>Figure 1 shows the number of songs in each class. We used a bar chart because it makes it easy to compare the counts of the two categories. The classes are highly imbalanced: only 2,081 songs (about 12%) reached the Top 10, compared to 14,770 songs that did not. Due to the imbalance, using only accuracy would be misleading (He and Garcia 2009) since a model that always predicted “Not Top 10” would still be about 88% accurate.Instead we should use metrics such as recall and F1 score, which better reflect how well the model identifies Top 10 songs.</p>
+<div id="530cb53e" class="cell" data-execution_count="13">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Figure 2: distribution of danceability by Top 10 status</span></span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="co"># (training data only)</span></span>
 <span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>plot_df <span class="op">=</span> train_df.assign(</span>
@@ -815,23 +818,23 @@ Index: []</code></pre>
 <div class="cell-output cell-output-display" data-execution_count="13">
 
 <style>
-  #altair-viz-d5f495c3c0874254b5f75d8f6ab86da3.vega-embed {
+  #altair-viz-fe80157eae6d4088ac3c9739aa8f6960.vega-embed {
     width: 100%;
     display: flex;
   }
 
-  #altair-viz-d5f495c3c0874254b5f75d8f6ab86da3.vega-embed details,
-  #altair-viz-d5f495c3c0874254b5f75d8f6ab86da3.vega-embed details summary {
+  #altair-viz-fe80157eae6d4088ac3c9739aa8f6960.vega-embed details,
+  #altair-viz-fe80157eae6d4088ac3c9739aa8f6960.vega-embed details summary {
     position: relative;
   }
 </style>
-<div id="altair-viz-d5f495c3c0874254b5f75d8f6ab86da3"></div>
+<div id="altair-viz-fe80157eae6d4088ac3c9739aa8f6960"></div>
 <script type="text/javascript">
   var VEGA_DEBUG = (typeof VEGA_DEBUG == "undefined") ? {} : VEGA_DEBUG;
   (function(spec, embedOpt){
     let outputDiv = document.currentScript.previousElementSibling;
-    if (outputDiv.id !== "altair-viz-d5f495c3c0874254b5f75d8f6ab86da3") {
-      outputDiv = document.getElementById("altair-viz-d5f495c3c0874254b5f75d8f6ab86da3");
+    if (outputDiv.id !== "altair-viz-fe80157eae6d4088ac3c9739aa8f6960") {
+      outputDiv = document.getElementById("altair-viz-fe80157eae6d4088ac3c9739aa8f6960");
     }
 
     const paths = {
@@ -890,7 +893,7 @@ Index: []</code></pre>
 </section>
 <section id="preprocessing" class="level3">
 <h3 class="anchored" data-anchor-id="preprocessing">Preprocessing</h3>
-<div id="b11e63c0" class="cell" data-execution_count="14">
+<div id="c931e944" class="cell" data-execution_count="14">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>X_train <span class="op">=</span> train_df.drop(columns<span class="op">=</span>[<span class="st">"top_10"</span>])</span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>y_train <span class="op">=</span> train_df[<span class="st">"top_10"</span>]</span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>X_test <span class="op">=</span> test_df.drop(columns<span class="op">=</span>[<span class="st">"top_10"</span>])</span>
@@ -900,7 +903,7 @@ Index: []</code></pre>
 <span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>X_train[<span class="st">"year"</span>] <span class="op">=</span> pd.to_datetime(X_train[<span class="st">"WeekID"</span>]).dt.year</span>
 <span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>X_test[<span class="st">"year"</span>] <span class="op">=</span> pd.to_datetime(X_test[<span class="st">"WeekID"</span>]).dt.year</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="ad1ea2c5" class="cell" data-execution_count="15">
+<div id="bfe7eae4" class="cell" data-execution_count="15">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>numeric_features <span class="op">=</span> [</span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"danceability"</span>, <span class="st">"energy"</span>, <span class="st">"valence"</span>, <span class="st">"loudness"</span>, <span class="st">"tempo"</span>,</span>
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"acousticness"</span>, <span class="st">"speechiness"</span>, <span class="st">"instrumentalness"</span>, <span class="st">"liveness"</span>,</span>
@@ -2607,7 +2610,7 @@ forceTheme('sk-container-id-1');</script>
 </section>
 <section id="baseline-model" class="level3">
 <h3 class="anchored" data-anchor-id="baseline-model">Baseline model</h3>
-<div id="5f0a1c24" class="cell" data-execution_count="16">
+<div id="e38d87c7" class="cell" data-execution_count="16">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>dummy_pipe <span class="op">=</span> make_pipeline(preprocessor, DummyClassifier(strategy<span class="op">=</span><span class="st">"most_frequent"</span>))</span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>scoring <span class="op">=</span> [<span class="st">"accuracy"</span>, <span class="st">"precision"</span>, <span class="st">"recall"</span>, <span class="st">"f1"</span>]</span>
@@ -2639,8 +2642,8 @@ forceTheme('sk-container-id-1');</script>
 <tbody>
 <tr class="odd">
 <th data-quarto-table-cell-role="th">Dummy (most frequent)</th>
-<td>0.020692</td>
-<td>0.006588</td>
+<td>0.030272</td>
+<td>0.010256</td>
 <td>0.876506</td>
 <td>0.876506</td>
 <td>0.0</td>
@@ -2659,7 +2662,7 @@ forceTheme('sk-container-id-1');</script>
 </section>
 <section id="logistic-regression" class="level3">
 <h3 class="anchored" data-anchor-id="logistic-regression">Logistic regression</h3>
-<div id="97d57300" class="cell" data-execution_count="17">
+<div id="f568f868" class="cell" data-execution_count="17">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>lr_pipe <span class="op">=</span> make_pipeline(preprocessor, LogisticRegression(max_iter<span class="op">=</span><span class="dv">1000</span>, random_state<span class="op">=</span><span class="dv">522</span>))</span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>param_grid <span class="op">=</span> {</span>
@@ -2679,7 +2682,7 @@ forceTheme('sk-container-id-1');</script>
  'logisticregression__class_weight': 'balanced'}</code></pre>
 </div>
 </div>
-<div id="efe1f0c0" class="cell" data-execution_count="18">
+<div id="168c1ad8" class="cell" data-execution_count="18">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>best <span class="op">=</span> pd.DataFrame(search.cv_results_).iloc[search.best_index_]</span>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>results[<span class="st">"Logistic regression (tuned)"</span>] <span class="op">=</span> pd.Series({</span>
 <span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>    <span class="ss">f"</span><span class="sc">{</span>split<span class="sc">}</span><span class="ss">_</span><span class="sc">{</span>m<span class="sc">}</span><span class="ss">"</span>: best[<span class="ss">f"mean_</span><span class="sc">{</span>split<span class="sc">}</span><span class="ss">_</span><span class="sc">{</span>m<span class="sc">}</span><span class="ss">"</span>]</span>
@@ -2743,7 +2746,10 @@ forceTheme('sk-container-id-1');</script>
 </section>
 <section id="references" class="level2">
 <h2 class="anchored" data-anchor-id="references">References</h2>
-<p><em>To be added.</em></p>
+<p>Castillo, Jaime Ramírez, M. Julia Flores, and Philippe Leray. 2024. “Predicting Spotify Audio Features from Last.fm Tags.” <em>Multimedia Tools and Applications</em> 83 (16): 48311–48330. https://doi.org/10.1007/s11042-023-17160-5.</p>
+<p>He, Haibo, and Edwardo A. Garcia. 2009. “Learning from Imbalanced Data.” <em>IEEE Transactions on Knowledge and Data Engineering</em> 21 (9): 1263–1284. https://doi.org/10.1109/TKDE.2008.239.</p>
+<p>Miller, Sean. 2023. “Billboard Hot 100 Weekly Charts with Spotify Audio Features.” data.world. https://data.world/kcmillersean.</p>
+<p>The Devastator. 2023. “Billboard Hot Weekly Charts: Billboard Hot 100 Weekly Charts with Spotify Audio Features.” Kaggle. https://www.kaggle.com/datasets/thedevastator/billboard-hot-100-audio-features.</p>
 </section>
 
 </main>
